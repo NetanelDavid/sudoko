@@ -15,7 +15,7 @@ export class CellComponent implements OnInit {
   @Input()col:number;
   @Input()FirstValue:number; 
   @Input()IsSolution:boolean;
- @Input()
+  @Input()
   public set IsNewPlay(val: boolean) {
     this.NewPlay();
   }

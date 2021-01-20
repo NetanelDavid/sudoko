@@ -1,0 +1,45 @@
+
+  .cell{  
+    outline-width: 0px;
+    height:40px;
+    width:40px; 
+    padding:0px;
+    border-width:thin 0px 0px thin;
+    border-color: black;
+    text-align: center;
+    padding:0px;
+    font-size:115%;
+  }
+  
+ .left{  
+    border-left-width: thick; 
+  }
+  
+  .right{   
+    border-right-width:thick;    
+  }
+
+  .top{  
+    border-top-width: thick;
+  }
+  
+  .bottom{
+    border-bottom-width:thick;
+  }
+
+  input[type=number].NotAccepted:focus{
+    background:rgb(211, 210, 210);
+  }
+
+  input[type=number]::-webkit-inner-spin-button{ 
+    -webkit-appearance:none;  
+  }
+
+  .accepted{
+    background:rgb(176, 179, 176);
+    color: blue;
+   }
+
+   .error{
+    background:rgb(240, 77, 77);
+   }

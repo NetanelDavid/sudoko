@@ -1,0 +1,14 @@
+
+<input 
+type='number'
+[ngClass]='{cell:true,accepted:IsAccepted,NotAccepted:!IsAccepted,left:IsLeft,right:IsRight,top:IsTop,bottom:IsBottom,error:IsError}'
+[(ngModel)]='IsAccepted ? dataService.AllData[row][col][0] : FirstValue'
+[readonly]='IsAccepted? true : IsSolution'
+(blur)='validation()'
+[id]='row*dataService.len+col'
+max='dataService.len'
+min=1
+>
+
+
+

@@ -9,18 +9,11 @@ import { DataService } from 'src/app/servicess/data.service';
 export class ChartComponent implements OnInit {
 
   ShowSolution:boolean;
-  CellToChart:number[];
   TextSolution:string;
   IsSolution:boolean; 
-  IsNewPlay:boolean;
   
   constructor(public dataService :DataService) { 
    this.TextSolution='פתור';
-   
-   this.CellToChart=new Array(this.dataService.len);
-   for (let i=0; i < this.CellToChart.length; i++) {
-      this.CellToChart[i]=i;
-   }
   }
 
   ngOnInit(): void {
@@ -28,7 +21,6 @@ export class ChartComponent implements OnInit {
 
   NewPlay():void{
     this.dataService.NewPlay();
-    this.IsNewPlay=!this.IsNewPlay;
     if(this.IsSolution){
       this.solution();
     }

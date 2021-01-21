@@ -1,6 +1,5 @@
-<ng-container *ngFor='let i of CellToChart'>
-  <app-cell *ngFor='let j of CellToChart'
-    [IsNewPlay]='IsNewPlay'
+<ng-container *ngFor="let a of dataService.AllData; let i = index">
+  <app-cell *ngFor='let b of dataService.AllData; let j = index'
     [FirstValue]='IsSolution ? dataService.AllData[i][j][0] : undefined'
     [IsSolution]='IsSolution'
     [row]='i'
@@ -9,7 +8,6 @@
   <br>
 </ng-container> 
    
-
 <button class='TextSolution' (click)='solution()'>{{TextSolution}}</button>
 <button class='NewPlay' (click)='NewPlay()'>משחק חדש</button>
 

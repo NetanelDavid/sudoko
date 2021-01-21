@@ -1,19 +1,17 @@
 import { Byte } from '@angular/compiler/src/util';
-import { Component, Injectable } from '@angular/core';
-
-
-
+import { Component, Injectable, Input } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 
-
 export class DataService {
 
-  
-  SubLen=3;
-  len=Math.pow(this.SubLen,2);
+  MaxSubLen=6;
+  MinSubLen=2;
+  DefaultSubLen=3;
+  SubLen:number;
+  len:number;
   AllData:number[][][];
 
   constructor() {
@@ -21,6 +19,10 @@ export class DataService {
   }
   
   NewPlay(){
+   if(this.SubLen>this.MaxSubLen || this.SubLen <this.MinSubLen ||!this.SubLen){
+      this.SubLen=this.DefaultSubLen;
+    }
+    this.len=Math.pow(this.SubLen,2);
     this.AllData=new Array(this.len);
     for (let a=0; a<this.len; a++) {
       this.AllData[a]=new Array(this.len);

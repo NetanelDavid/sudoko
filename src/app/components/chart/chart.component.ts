@@ -35,6 +35,7 @@ export class ChartComponent implements OnInit ,OnChanges{
   NewPlay():void{
     this.dataService.NewPlay();
     this.fresh();
+    console.log('new play');
   }
 
   fresh(){

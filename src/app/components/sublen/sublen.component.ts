@@ -19,11 +19,11 @@ export class SublenComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  DifferenceLength():void{
+  DiffLength():void{
     if(this.SubLength > this.MaxSubLength || this.SubLength < this.MinSubLength || !this.SubLength){
       this.SubLength = this.DefaultSubLength;
     }
-
+    
     if(this.SubLength != this.dataservice.SubLen){
       this.SubLengthEvent.emit(this.SubLength);
     }

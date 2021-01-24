@@ -18,6 +18,7 @@ export class AppComponent {
     this.dataservice.SubLen=NewSubLength;
     this.dataservice.difflength();
     this.SubLength=NewSubLength;
+    console.log(`length: ${NewSubLength}`);
   }
 
   ngOnInit(): void {

@@ -1,3 +1,4 @@
-<app-chart></app-chart>
-<app-sublen></app-sublen>
-
+<app-chart
+[SubLength]='SubLength'>
+</app-chart>
+<app-sublen (SubLengthEvent)='DiffLength($event)'></app-sublen>

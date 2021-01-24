@@ -1,9 +1,9 @@
 
 <input 
 type='number'
-[ngClass]='{cell:true,accepted:IsAccepted,NotAccepted:!IsAccepted,left:IsLeft,right:IsRight,top:IsTop,bottom:IsBottom,error:IsError}'
-[(ngModel)]='IsAccepted ? dataService.AllData[row][col][0] : FirstValue'
-[readonly]='IsAccepted? true : IsSolution'
+[ngClass]='{cell:true,accepted:accepted,NotAccepted:!accepted,left:Left,right:Right,top:Top,bottom:Bottom,error:Error}'
+[(ngModel)]='value'
+[readonly]='full'
 (blur)='validation()'
 [id]='row*dataService.len+col'
 max='dataService.len'

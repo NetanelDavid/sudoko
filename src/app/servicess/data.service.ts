@@ -7,21 +7,29 @@ import { Component, Injectable, Input } from '@angular/core';
 
 export class DataService {
 
-  MaxSubLen=6;
-  MinSubLen=2;
+
   DefaultSubLen=3;
   SubLen:number;
   len:number;
   AllData:number[][][];
 
   constructor() {
-    this.NewPlay();
+    this.SubLen=this.DefaultSubLen;
+    this.difflength();
   }
   
-  NewPlay(){
-   if(this.SubLen>this.MaxSubLen || this.SubLen <this.MinSubLen ||!this.SubLen){
-      this.SubLen=this.DefaultSubLen;
+  NewPlay():void {
+    for (let a=0; a<this.len; a++) {
+      for (let b=0; b<this.len; b++) {
+        for (let c=0; c<this.len+1; c++) {
+          this.AllData[a][b][c]= c==0 ? null : c;
+        }
+      }
     }
+  }
+
+  difflength():void{
+
     this.len=Math.pow(this.SubLen,2);
     this.AllData=new Array(this.len);
     for (let a=0; a<this.len; a++) {
@@ -33,7 +41,6 @@ export class DataService {
         }
       }
     }
-    console.log(this.AllData);
   }
 
   UserSendNumber(row:number,col:number,value:number):void{
@@ -41,13 +48,13 @@ export class DataService {
     this.NewDiscovery(row,col,value);
   }
 
-  NewDiscovery(row:number,col:number,value:number):void{
+  private NewDiscovery(row:number,col:number,value:number):void{
     this.SetNumber(row,col,value);
     this.DeletePerimeters(row,col,value);
     this.OneNumberOption();
   }
 
-  SetNumber(row:number,col:number,value:number):void{
+  private SetNumber(row:number,col:number,value:number):void{
 
     this.AllData[row][col][0]=value;
 
@@ -59,7 +66,7 @@ export class DataService {
     
   }
 
-  DeletePerimeters(row:number,col:number,value:number):void{
+  private DeletePerimeters(row:number,col:number,value:number):void{
 
    for (let i = 0; i < this.len; i++) {
       if(i!=col){
@@ -98,7 +105,7 @@ export class DataService {
     }
   }
 
- OneCellOption(row:number,col:number):void{
+  private OneCellOption(row:number,col:number):void{
     if( this.AllData[row][col][0]>0){
       return;
     }
@@ -119,7 +126,7 @@ export class DataService {
     }
   }
 
-  OneNumberOption():void{
+  private OneNumberOption():void{
     for(let a = 0; a < this.len; a++){
 
       for(let c = 1; c <= this.len; c++){  // One Number Option of row?

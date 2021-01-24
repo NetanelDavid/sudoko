@@ -1,9 +1,9 @@
-<ng-container *ngFor="let a of dataService.AllData; let i = index">
-  <app-cell *ngFor='let b of dataService.AllData; let j = index'
-    [FirstValue]='IsSolution ? dataService.AllData[i][j][0] : undefined'
-    [IsSolution]='IsSolution'
-    [row]='i'
-    [col]='j'>
+<ng-container *ngFor="let a of arr; let i = index">
+  <app-cell *ngFor='let b of arr; let j = index'
+  [row]='i'
+  [col]='j'
+  [solution]='IsSolution'
+  [fresh]='ISFresh'>
   </app-cell>
   <br>
 </ng-container> 

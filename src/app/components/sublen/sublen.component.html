@@ -1,4 +1,7 @@
 <input
 type='number'
-[(ngModel)]='dataservice.SubLen'
-(change)="dataservice.NewPlay()">
+[(ngModel)]='SubLength'
+[max]='MaxSubLength'
+[min]='MinSubLength' >
+
+<button (click)='DifferenceLength()'>שחק</button>

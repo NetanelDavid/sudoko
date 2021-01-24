@@ -1,8 +1,14 @@
-<input
+<div class="background">
+  <input class="input"
   type='number'
   [(ngModel)]='SubLength'
   [max]='MaxSubLength'
   [min]='MinSubLength' 
   (change)='DiffLength()'>
 
-<button [routerLink]='["play"]' >שחק</button>
+  <p class="text">בחר גודל קובייה</p>
+
+  <button  class="button" [routerLink]='["play"]' >שחק</button>
+</div>
+
+

@@ -3,14 +3,12 @@
   [row]='i'
   [col]='j'
   [solution]='IsSolution'
-  [fresh]='ISFresh'>
+  [NewPlay]='IsNewPlay'>
   </app-cell>
   <br>
 </ng-container> 
-   
+
 <button class='TextSolution' (click)='solution()'>{{TextSolution}}</button>
 <button class='NewPlay' (click)='NewPlay()'>משחק חדש</button>
-
-
-
-
+<br>
+<button [routerLink]='[""]'>שנה גודל</button>

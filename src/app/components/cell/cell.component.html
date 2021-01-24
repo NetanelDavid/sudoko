@@ -5,10 +5,7 @@ type='number'
 [(ngModel)]='value'
 [readonly]='full'
 (blur)='validation()'
-[id]='row*dataService.len+col'
-max='dataService.len'
+[id]='row*length+col'
+max='length'
 min=1
 >
-
-
-

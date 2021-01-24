@@ -7,22 +7,5 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  SubLength:number;
-
-  constructor(public dataservice:DataService) {
-    this.SubLength=this.dataservice.SubLen;
-   }
-
-  DiffLength(NewSubLength:number):void{
-    this.dataservice.SubLen=NewSubLength;
-    this.dataservice.difflength();
-    this.SubLength=NewSubLength;
-    console.log(`length: ${NewSubLength}`);
-  }
-
-  ngOnInit(): void {
-  }
-
   title = 'sudoko';
 }

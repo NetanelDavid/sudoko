@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -6,43 +6,32 @@ import { DataService } from 'src/app/servicess/data.service';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit ,OnChanges{
 
-  @Input()SubLength:number;
+export class ChartComponent implements OnInit {
   
   arr:any[];
   IsSolution:boolean; 
   IsNewPlay:boolean;
-  ISFresh:boolean; 
+  TextSolution:string;
  
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if(!changes.SubLength.previousValue){
-      return;
-    }
-
-    else{
-      this.DeefLength();
-    }
+  constructor(private dataService :DataService) { 
+    this.dataService.difflength();
+    this.arr = new Array(this.dataService.length);
+    this.TextSolution='פתור';
   }
 
-  DeefLength():void{
-    this.arr = new Array(this.dataService.len);
-    this.fresh();
+  solution():void{
+    this.IsSolution=!this.IsSolution;
+    this.TextSolution=this.TextSolution=='פתור'?'הסר פתרון':'פתור';
   }
 
-  
   NewPlay():void{
+
     this.dataService.NewPlay();
-    this.fresh();
-    console.log('new play');
-  }
 
-  fresh(){
-
-    this.ISFresh=true;
+    this.IsNewPlay=true;
     setTimeout(() => {
-      this.ISFresh=false;
+      this.IsNewPlay=false;
     }, 0);
 
     if(this.IsSolution){
@@ -50,23 +39,5 @@ export class ChartComponent implements OnInit ,OnChanges{
     }
   }
   
-  solution():void{
-    this.IsSolution=!this.IsSolution;
-    this.TextSolution=this.TextSolution=='פתור'?'הסר פתרון':'פתור';
-  }
-  
-  TextSolution:string;
-  constructor(public dataService :DataService) { 
-    this.arr=new Array(this.dataService.len);
-    this.TextSolution='פתור';
-
-    this.ISFresh=false;
-    this.IsSolution=false;
-  }
-
-  ngOnInit(): void {
-
-  }
-
-
+  ngOnInit(): void {}
 }

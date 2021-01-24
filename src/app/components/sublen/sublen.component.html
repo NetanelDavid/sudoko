@@ -1,7 +1,8 @@
 <input
-type='number'
-[(ngModel)]='SubLength'
-[max]='MaxSubLength'
-[min]='MinSubLength' >
+  type='number'
+  [(ngModel)]='SubLength'
+  [max]='MaxSubLength'
+  [min]='MinSubLength' 
+  (change)='DiffLength()'>
 
-<button (click)='DiffLength()'>שחק</button>
+<button [routerLink]='["play"]' >שחק</button>

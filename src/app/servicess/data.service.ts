@@ -6,41 +6,43 @@ import { Component, Injectable, Input } from '@angular/core';
 })
 
 export class DataService {
-
-
-  DefaultSubLen=3;
+  
+  DefaultSubLength=3;
+  MinSubLength=2;
+  MaxSubLength=6;
   SubLen:number;
-  len:number;
+  length:number;
   AllData:number[][][];
 
   constructor() {
-    this.SubLen=this.DefaultSubLen;
-    this.difflength();
+    this.SubLen=this.DefaultSubLength;
   }
   
   NewPlay():void {
-    for (let a=0; a<this.len; a++) {
-      for (let b=0; b<this.len; b++) {
-        for (let c=0; c<this.len+1; c++) {
+    for (let a=0; a<this.length; a++) {
+      for (let b=0; b<this.length; b++) {
+        for (let c=0; c<this.length+1; c++) {
           this.AllData[a][b][c]= c==0 ? null : c;
         }
       }
     }
+    console.log('new play');
   }
 
   difflength():void{
 
-    this.len=Math.pow(this.SubLen,2);
-    this.AllData=new Array(this.len);
-    for (let a=0; a<this.len; a++) {
-      this.AllData[a]=new Array(this.len);
-      for (let b=0; b<this.len; b++) {
-        this.AllData[a][b]=new Array(this.len+1);
-        for (let c=0; c<this.len+1; c++) {
+    this.length=Math.pow(this.SubLen,2);
+    this.AllData=new Array(this.length);
+    for (let a=0; a<this.length; a++) {
+      this.AllData[a]=new Array(this.length);
+      for (let b=0; b<this.length; b++) {
+        this.AllData[a][b]=new Array(this.length+1);
+        for (let c=0; c<this.length+1; c++) {
           this.AllData[a][b][c]= c==0 ? null : c;
         }
       }
     }
+    console.log(`length: ${this.length}`);
   }
 
   UserSendNumber(row:number,col:number,value:number):void{
@@ -58,7 +60,7 @@ export class DataService {
 
     this.AllData[row][col][0]=value;
 
-    for (let i = 1; i < this.len+1; i++) {
+    for (let i = 1; i < this.length+1; i++) {
       if(i!=value){
         this.AllData[row][col][i]=0;
       }
@@ -68,7 +70,7 @@ export class DataService {
 
   private DeletePerimeters(row:number,col:number,value:number):void{
 
-   for (let i = 0; i < this.len; i++) {
+   for (let i = 0; i < this.length; i++) {
       if(i!=col){
 
         this.AllData[row][i][value]=0; //delete row
@@ -113,7 +115,7 @@ export class DataService {
     let counter=0,
         ICounter:number;
 
-    for (let i=1; i <= this.len && counter<2; i++) {
+    for (let i=1; i <= this.length && counter<2; i++) {
       if(this.AllData[row][col][i]>0){
         counter++;
         ICounter=i;
@@ -127,14 +129,14 @@ export class DataService {
   }
 
   private OneNumberOption():void{
-    for(let a = 0; a < this.len; a++){
+    for(let a = 0; a < this.length; a++){
 
-      for(let c = 1; c <= this.len; c++){  // One Number Option of row?
+      for(let c = 1; c <= this.length; c++){  // One Number Option of row?
 
         let CounterRow=0,
             ICounterRow:number;
 
-        for (let b = 0; b < this.len && CounterRow<2; b++) {
+        for (let b = 0; b < this.length && CounterRow<2; b++) {
 
           if(this.AllData[a][b][0]==c){
             break;
@@ -153,12 +155,12 @@ export class DataService {
         }
       }
 
-      for(let c = 1; c <= this.len; c++){  // One Number Option of col?
+      for(let c = 1; c <= this.length; c++){  // One Number Option of col?
 
         let CounterCol=0,
             ICounterCol:number;
 
-        for (let b = 0; b < this.len && CounterCol<2; b++) {
+        for (let b = 0; b < this.length && CounterCol<2; b++) {
 
           if(this.AllData[b][a][0]==c){
             break;
@@ -177,7 +179,7 @@ export class DataService {
         }
       }
 
-      for(let c = 1; c <= this.len; c++){  // One Number Option of Dice?
+      for(let c = 1; c <= this.length; c++){  // One Number Option of Dice?
 
         let BorderDice = this.DiceAsIndex(a),
             CounterDice=0,
@@ -208,11 +210,7 @@ export class DataService {
     }
   }
 
-
-
-
-
-
+  
   private  DiceAsRowAndCol(row:number,col:number):any {
 
     let FirstRow = row - row%this.SubLen;

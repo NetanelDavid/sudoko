@@ -1,0 +1,12 @@
+
+.background{
+    position:absolute;
+    top: 50px;
+    left:0px;
+    background:rgb(167, 167, 155);
+}
+
+.ball{
+    background:yellow;
+    position: absolute;
+}

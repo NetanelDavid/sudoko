@@ -11,6 +11,8 @@ export class SublenComponent implements OnInit {
   SubLength:number;
   MaxSubLength:number;
   MinSubLength:number;
+
+  HeightBackground = window.innerHeight-50;
   
   constructor(private dataservice:DataService) {
     this.MaxSubLength=dataservice.MaxSubLength;

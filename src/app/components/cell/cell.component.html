@@ -1,7 +1,7 @@
 
 <input 
 type='number'
-[ngClass]='{cell:true,accepted:accepted,NotAccepted:!accepted,left:Left,right:Right,top:Top,bottom:Bottom,error:Error}'
+[ngClass]='DivClasses'
 [(ngModel)]='value'
 [readonly]='full'
 (blur)='validation()'

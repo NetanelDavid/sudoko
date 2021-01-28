@@ -1,5 +1,6 @@
 import { style } from '@angular/animations';
 import { Component, Input, OnInit,OnChanges, Output ,EventEmitter, SimpleChanges} from '@angular/core';
+import { Class } from 'src/app/models/DivClaas.model';
 import { DataService } from 'src/app/servicess/data.service';
 
 
@@ -21,15 +22,13 @@ export class CellComponent implements OnInit ,OnChanges{
   full:boolean;
   accepted:boolean;
 
-  Left:boolean;
-  Right:boolean;
-  Top:boolean;
-  Bottom:boolean;
-  Error:boolean;
+  DivClasses:Class;
   length:number;
+  subLength:number;
 
   constructor(private dataService:DataService) {
-    this.length=dataService.MaxSubLength;
+    this.length=dataService.length;
+    this.subLength=this.dataService.SubLen;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,10 +52,7 @@ export class CellComponent implements OnInit ,OnChanges{
   }
 
   ngOnInit(): void {
-    this.Left=this.col%this.dataService.SubLen==0;
-    this.Right=this.col==this.dataService.length-1;
-    this.Top=this.row%this.dataService.SubLen==0;
-    this.Bottom=this.row==this.dataService.length-1;
+    this.UpdateClasses();
   }
 
   validation() {
@@ -76,6 +72,7 @@ export class CellComponent implements OnInit ,OnChanges{
 
   Accepted():void{
     this.accepted=true;
+    this.DivClasses.accepted=true;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }
@@ -83,10 +80,23 @@ export class CellComponent implements OnInit ,OnChanges{
   Postponed():void {
     this.value=null;
 
-    this.Error=true;
+    this.DivClasses.error=true;
 
     setTimeout(() => {
-      this.Error=false;  
+      this.DivClasses.error=false;  
    }, 0.125 * 1000);
+  }
+
+  UpdateClasses():void{
+    this.DivClasses={
+      cell:true,
+      left: this.col%this.subLength===0,
+      right: this.col===this.length-1,
+      top: this.row%this.subLength===0,
+      bottom: this.row==this.length-1,
+      error:false,
+      accepted :this.accepted,
+      notAccepted: !this.accepted,
+    }
   }
 }

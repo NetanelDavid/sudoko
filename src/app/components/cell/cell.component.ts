@@ -35,6 +35,7 @@ export class CellComponent implements OnInit ,OnChanges{
 
     if(changes.NewPlay && changes.NewPlay.currentValue){
       this.accepted=false;
+      this.DivClasses.accepted=false;
       this.solution=false;
       this.value=null;
       this.full=false;

@@ -54,6 +54,7 @@ export class DataService {
     this.SetNumber(row,col,value);
     this.DeletePerimeters(row,col,value);
     this.OneNumberOption();
+    this.testingReducingOptions();
   }
 
   private SetNumber(row:number,col:number,value:number):void{
@@ -210,6 +211,75 @@ export class DataService {
     }
   }
 
+  private testingReducingOptions():void{
+    for(let indexDice=0;indexDice<this.length;indexDice++){
+
+      let brodersDice=this.DiceAsIndex(indexDice);
+
+      for(let numberForTesting=1;numberForTesting<=this.length;numberForTesting++){
+        
+        numberExistsInTheDice:
+        for(let exceptFor=brodersDice[0];exceptFor<brodersDice[1];exceptFor++){
+          
+          let counter=0;
+
+          notEverythingIsEmpty:
+          for(let row=brodersDice[0];row<brodersDice[1];row++){
+            for(let col=brodersDice[2]; col<brodersDice[3]; col++){
+              
+              if(row==exceptFor){
+                if(row==brodersDice[0]){
+                  for(let _col=brodersDice[2];_col<brodersDice[3];_col++){
+                    if(this.AllData[row][_col][0]==numberForTesting){
+                      break numberExistsInTheDice;
+                    }
+                  }
+                }
+                break;
+              }
+
+              if(this.AllData[row][col][0]==numberForTesting){
+                break numberExistsInTheDice;
+              }
+
+              if(this.AllData[row][col][numberForTesting]){
+                break notEverythingIsEmpty;
+              }
+
+              counter++;
+
+              if(counter==this.length-this.SubLen){
+                this.ReducingOptions(exceptFor,indexDice,numberForTesting);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ReducingOptions(row:number,exceptForDice:number,num:number):void{
+
+    let counter=0,
+      borderDice=this.DiceAsIndex(exceptForDice);
+    for(let i=0; i<this.length;i++){
+
+      if(i==borderDice[2]){
+        i=borderDice[3];
+        if(i==this.length){
+          break;
+        }
+      }
+      if( this.AllData[row][i][num]){
+        this.AllData[row][i][num]=0; 
+        counter++;       
+      }
+    }
+   if(counter){
+     console.log(`in row ${row} number ${num} must be in dice ${exceptForDice}`);
+   }
+  }
+  
   
   private  DiceAsRowAndCol(row:number,col:number):any {
 

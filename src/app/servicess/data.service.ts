@@ -1,5 +1,4 @@
-import { Byte } from '@angular/compiler/src/util';
-import { Component, Injectable, Input } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +53,11 @@ export class DataService {
     this.SetNumber(row,col,value);
     this.DeletePerimeters(row,col,value);
     this.OneNumberOption();
-    this.testingReducingOptions();
+    setTimeout(() => {
+      setTimeout(() => {
+       this.testingReducingOptions();
+      });
+    });
   }
 
   private SetNumber(row:number,col:number,value:number):void{
@@ -78,7 +81,7 @@ export class DataService {
 
         setTimeout(() => {
           this.OneCellOption(row,i);          
-        }, 1);
+        });
       }
 
       if(i!=row){
@@ -87,7 +90,7 @@ export class DataService {
 
         setTimeout(() => {
           this.OneCellOption(i,col);         
-        }, 1);
+        });
       }  
    }
 
@@ -101,7 +104,7 @@ export class DataService {
 
           setTimeout(() => {
             this.OneCellOption(a,b);
-          }, 1);
+          });
 
         }
       }
@@ -219,15 +222,15 @@ export class DataService {
       for(let numberForTesting=1;numberForTesting<=this.length;numberForTesting++){
         
         numberExistsInTheDice:
-        for(let exceptFor=brodersDice[0];exceptFor<brodersDice[1];exceptFor++){
+        for(let exceptForTheRow=brodersDice[0];exceptForTheRow<brodersDice[1];exceptForTheRow++){ //Is it possible to delete from row options, because of the dice?
           
-          let counter=0;
+          let counterRow=0;
 
           notEverythingIsEmpty:
-          for(let row=brodersDice[0];row<brodersDice[1];row++){
+          for(let row=brodersDice[0];row<brodersDice[1];row++){ 
             for(let col=brodersDice[2]; col<brodersDice[3]; col++){
               
-              if(row==exceptFor){
+              if(row==exceptForTheRow){
                 if(row==brodersDice[0]){
                   for(let _col=brodersDice[2];_col<brodersDice[3];_col++){
                     if(this.AllData[row][_col][0]==numberForTesting){
@@ -246,40 +249,208 @@ export class DataService {
                 break notEverythingIsEmpty;
               }
 
-              counter++;
-
-              if(counter==this.length-this.SubLen){
-                this.ReducingOptions(exceptFor,indexDice,numberForTesting);
+              counterRow++;
+              if(counterRow==this.length-this.SubLen){
+                this.reducingOptions(numberForTesting,exceptForTheRow,null,null,null,null,indexDice);
               }
             }
+          }
+        }
+
+        for(let exceptForTheCol=brodersDice[2];exceptForTheCol<brodersDice[3];exceptForTheCol++){ //Is it possible to delete from col options, because of the dice?
+          let CounterCol=0;
+          
+          notEverythingIsEmpty:
+          for(let col=brodersDice[2]; col<brodersDice[3]; col++){
+            for(let row=brodersDice[0];row<brodersDice[1];row++){
+              
+              if(col==exceptForTheCol){                
+                break;
+              }
+              
+              if(this.AllData[row][col][numberForTesting]){
+                break notEverythingIsEmpty;
+              }
+              
+              CounterCol++;
+              
+              if(CounterCol==this.length-this.SubLen){
+                this.reducingOptions(numberForTesting,null,exceptForTheCol,null,null,null,indexDice);
+              }
+            }
+          }
+        }
+        
+        for(let row=brodersDice[0]; row<brodersDice[1]; row++){ //Is it possible to delete from dice options, because of the row?
+          
+          let counter=0;
+
+          for(let col=0; col<this.length; col++){
+            
+            if(col==brodersDice[2]){
+              col=brodersDice[3];
+              if(col==this.length){
+                break;
+              }
+            }
+
+            if(this.AllData[row][col][numberForTesting]){
+              break;
+            }           
+            counter++;
+          }
+          if(counter==this.length-this.SubLen){
+            this.reducingOptions(numberForTesting,null,null,indexDice,row,null,null);
+          }
+        }
+
+        for(let col=brodersDice[2]; col<brodersDice[3]; col++){ //Is it possible to delete from dice options, because of the col?
+          
+          let counter=0;
+
+          for(let row=0; row<this.length; row++){
+            
+            if(row==brodersDice[0]){
+              row=brodersDice[1];
+              if(row==this.length){
+                break;
+              }
+            }
+
+            if(this.AllData[row][col][numberForTesting]){
+              break;
+            }           
+            counter++;
+          }
+          if(counter==this.length-this.SubLen){
+            this.reducingOptions(numberForTesting,null,null,indexDice,null,col,null);
           }
         }
       }
     }
   }
 
-  ReducingOptions(row:number,exceptForDice:number,num:number):void{
+  private reducingOptions(num:number,row:number,col:number,dice:number,exceptForRow:number,exceptForCol:number,exceptForDice:number):void{
 
-    let counter=0,
-      borderDice=this.DiceAsIndex(exceptForDice);
-    for(let i=0; i<this.length;i++){
+    if(row==0||row){ //delete from row options, because of the dice!
+      let borderExceptForDice=this.DiceAsIndex(exceptForDice),
+        isChange:boolean;
+      for(let _col=0; _col<this.length;_col++){
 
-      if(i==borderDice[2]){
-        i=borderDice[3];
-        if(i==this.length){
-          break;
-        }
+       if(_col==borderExceptForDice[2]){
+        _col=borderExceptForDice[3];
+         if(_col==this.length){
+            break;
+         }
+       }
+       if( this.AllData[row][_col][num]){
+          this.AllData[row][_col][num]=0; 
+          setTimeout(() => {
+            this.OneCellOption(row,_col);
+          });
+          isChange=true;       
+       }
       }
-      if( this.AllData[row][i][num]){
-        this.AllData[row][i][num]=0; 
-        counter++;       
+
+      if(isChange){
+        setTimeout(() => {
+          setTimeout(() => {
+            this.OneNumberOption();
+          });
+        });
+        console.log(`deleted the whole number ${num} from the row ${row} except dice ${exceptForDice}`);
       }
     }
-   if(counter){
-     console.log(`in row ${row} number ${num} must be in dice ${exceptForDice}`);
-   }
+
+    if(col==0 ||col){ //delete from col options, because of the dice!
+      let borderExceptForDice=this.DiceAsIndex(exceptForDice),
+       isChange:boolean;
+      for(let _row=0; _row<this.length;_row++){
+
+       if(_row==borderExceptForDice[0]){
+        _row=borderExceptForDice[1];
+         if(_row==this.length){
+            break;
+         }
+       }
+       if( this.AllData[_row][col][num]){
+          this.AllData[_row][col][num]=0;
+          setTimeout(() => {
+            this.OneCellOption(_row,col); 
+          });
+          isChange=true;       
+       }
+      }
+
+      if(isChange){
+        setTimeout(() => {
+          setTimeout(() => {
+            this.OneNumberOption();
+          });
+        });
+        console.log(`deleted the whole number ${num} from the col ${col} except dice ${exceptForDice}`);
+      }
+    }
+
+    if((dice==0||dice) && exceptForRow){ //delete from dice options, because of the row!
+
+      let borderDice=this.DiceAsIndex(dice),
+        isChange:Boolean;
+      for(let _row=borderDice[0]; _row<borderDice[1]; _row++){
+        for(let _col=borderDice[2]; _col<borderDice[3]; _col++){
+
+          if(_row==exceptForRow){
+            break;
+          }
+          if(this.AllData[_row][_col][num]){
+            this.AllData[_row][_col][num]=0;
+            isChange=true;
+            setTimeout(() => {
+              this.OneCellOption(_row,_col);
+            });
+          }
+        }
+      }
+      if(isChange){
+        setTimeout(() => {
+          setTimeout(() => {
+            this.OneNumberOption();
+          });
+        });
+        console.log(`deleted the whole number ${num} from the dice ${dice} except row ${exceptForRow}`);
+      }
+    }
+
+    if((dice==0||dice) && exceptForCol){ //delete from dice options, because of the col!
+
+      let borderDice=this.DiceAsIndex(dice),
+        isChange:Boolean;
+      for(let _col=borderDice[2]; _col<borderDice[3]; _col++){
+        for(let _row=borderDice[0]; _row<borderDice[1]; _row++){
+        
+          if(_col==exceptForCol){
+            break;
+          }
+          if(this.AllData[_row][_col][num]){
+            this.AllData[_row][_col][num]=0;
+            isChange=true;
+            setTimeout(() => {
+              this.OneCellOption(_row,_col);
+            });
+          }
+        }
+      }
+      if(isChange){
+        setTimeout(() => {
+          setTimeout(() => {
+            this.OneNumberOption();
+          });
+        });
+        console.log(`deleted the whole number ${num} from the dice ${dice} except col ${exceptForCol}`);
+      }
+    }
+    
   }
-  
   
   private  DiceAsRowAndCol(row:number,col:number):any {
 
@@ -291,9 +462,9 @@ export class DataService {
  
     return [FirstRow,LestRow,FirstCol,LestCol];
  
-   }
+  }
 
-   private DiceAsIndex(b:number):any{
+  private DiceAsIndex(b:number):any{
 
    let FirstRow = b - b%this.SubLen;
    let LestRow = FirstRow+this.SubLen;
@@ -304,18 +475,3 @@ export class DataService {
    return [FirstRow, LestRow , FirstCol , LestCol];
   }
 }
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-

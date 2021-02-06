@@ -1,15 +1,20 @@
-<ng-container *ngFor="let a of arr; let i = index">
-  <app-cell *ngFor='let b of arr; let j = index'
-  [row]='i'
-  [col]='j'
-  [solution]='IsSolution'
-  [NewPlay]='IsNewPlay'>
-  </app-cell>
-  <br>
-</ng-container> 
+<div class="margin" [ngStyle]='{width:40*dataService.length+"px"}'>
+  <ng-container *ngFor="let a of arr; let i = index">
+    <app-cell 
+     *ngFor='let b of arr; let j = index'
+     [row]='i'
+     [col]='j'
+     [solution]='IsSolution'
+     [NewPlay]='IsNewPlay'>
+    </app-cell>
+    <br>
+  </ng-container> 
+</div>
 
 
-<button class='TextSolution' (click)='solution()'>{{TextSolution}}</button>
-<button class='NewPlay' (click)='NewPlay()'>משחק חדש</button>
-<br>
-<button [routerLink]='[""]'>שנה גודל</button>
+
+<div class="pozisen"  [ngStyle]="{left:40*dataService.length+70+'px'}">
+ <p><button class='btn btn-success width-button' (click)='solution()'>{{TextSolution}}</button></p>
+ <p><button class='btn btn-warning width-button' (click)='NewPlay()'>משחק חדש</button></p>
+ <p><button class='btn btn-danger width-button' [routerLink]='[""]'>שנה גודל</button></p>
+</div>

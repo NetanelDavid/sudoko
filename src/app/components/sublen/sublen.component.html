@@ -1,14 +1,16 @@
-<div class="background" [style.height]='HeightBackground + "px"'>
+<div class="background p-3 mb-2 bg-secondary text-white" [style.height]='HeightBackground + "px"'>
+
+  <p class="mx-auto" style="width: 113px;">:בחר גודל קובייה</p>
+
   <input class="input"
   type='number'
   [(ngModel)]='SubLength'
   [max]='MaxSubLength'
   [min]='MinSubLength' 
-  (change)='DiffLength()'>
+  (change)='DiffLength()'
+  placeholder=3>
 
-  <p class="text">בחר גודל קובייה</p>
-
-  <button  class="button" [routerLink]='["play"]' >שחק</button>
+  <button  class="button btn btn-light " [routerLink]='["play"]' >שחק</button>
 </div>
 
 

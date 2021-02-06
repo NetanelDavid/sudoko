@@ -13,8 +13,10 @@ export class ChartComponent implements OnInit {
   IsSolution:boolean; 
   IsNewPlay:boolean;
   TextSolution:string;
+  length:number;
  
-  constructor(private dataService :DataService) { 
+  constructor(public dataService :DataService) { 
+    this.length=this.dataService.length;
     this.dataService.difflength();
     this.arr = new Array(this.dataService.length);
     this.TextSolution='פתור';

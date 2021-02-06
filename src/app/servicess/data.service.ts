@@ -449,7 +449,6 @@ export class DataService {
         console.log(`deleted the whole number ${num} from the dice ${dice} except col ${exceptForCol}`);
       }
     }
-    
   }
   
   private  DiceAsRowAndCol(row:number,col:number):any {

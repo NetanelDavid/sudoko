@@ -74,6 +74,7 @@ export class CellComponent implements OnInit ,OnChanges{
   Accepted():void{
     this.accepted=true;
     this.DivClasses.accepted=true;
+    this.DivClasses.notAccepted=false;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }
@@ -96,8 +97,8 @@ export class CellComponent implements OnInit ,OnChanges{
       top: this.row%this.subLength===0,
       bottom: this.row==this.length-1,
       error:false,
-      accepted :this.accepted,
-      notAccepted: !this.accepted,
+      accepted :false,
+      notAccepted:true,
     }
   }
 }

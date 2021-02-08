@@ -27,7 +27,7 @@
     border-bottom-width:thick;
   }
 
-  input[type=number].NotAccepted:focus{
+  input[type=number].notAccepted:focus{
     background:rgb(211, 210, 210);
   }
 
@@ -38,8 +38,8 @@
   .accepted{
     background:rgb(176, 179, 176);
     color: blue;
-   }
+  }
 
-   .error{
+  .error{
     background:rgb(240, 77, 77);
-   }
+  }

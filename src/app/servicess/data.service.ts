@@ -52,16 +52,22 @@ export class DataService {
   private NewDiscovery(row:number,col:number,value:number):void{
     this.SetNumber(row,col,value);
     this.DeletePerimeters(row,col,value);
-    this.OneNumberOption();
     setTimeout(() => {
       setTimeout(() => {
-       this.testingReducingOptions();
+        this.OneNumberOption();
+        this.testingReducingOptions();
+      });
+    });
+    setTimeout(() => {
+      setTimeout(() => {
+        setTimeout(() => {
+          this.testingLockedCells();
+        });
       });
     });
   }
 
   private SetNumber(row:number,col:number,value:number):void{
-
     this.AllData[row][col][0]=value;
 
     for (let i = 1; i < this.length+1; i++) {
@@ -73,7 +79,6 @@ export class DataService {
   }
 
   private DeletePerimeters(row:number,col:number,value:number):void{
-
    for (let i = 0; i < this.length; i++) {
       if(i!=col){
 
@@ -451,6 +456,199 @@ export class DataService {
     }
   }
   
+  private testingLockedCells():void{
+    
+    let testingHome:number[][];
+    let lockedCells:number[][];
+    
+    for (let index = 0; index <this.length; index++) {
+
+      {   //testing locked cells to row
+
+        testingHome = undefined; 
+        lockedCells = undefined;
+        
+        testingHome=new Array(this.length);
+        
+        for (let col = 0; col < this.length; col++) { 
+          
+          if(!this.AllData[index][col][0]){
+            testingHome[col]=[...this.AllData[index][col].filter(num => num)];
+          }
+        }
+        lockedCells = [...this.testingHome([...testingHome])];
+
+        if(lockedCells.length){
+          for (let i = 0; i < lockedCells.length; i+=2) {
+            this.deletingNeighborsOfLockedCells('row',index,[...lockedCells[i]],[...lockedCells[i+1]]);
+          }
+        }
+      }
+
+      { //testing locked cells to col
+
+        testingHome = undefined;
+        lockedCells = undefined;
+
+        testingHome = new Array(this.length);
+        
+        for(let row = 0; row<this.length; row++){
+          
+          if(!this.AllData[row][index][0]){
+            testingHome[row]=[...this.AllData[row][index].filter(num => num)];
+          }
+        }
+        lockedCells = [...this.testingHome([...testingHome])];
+
+        if(lockedCells.length){
+          for (let i = 0; i < lockedCells.length; i+=2) {
+            this.deletingNeighborsOfLockedCells('col',index,[...lockedCells[i]],[...lockedCells[i+1]]);
+          }
+        }
+      }
+
+      {  //testing locked cells to dice
+
+       testingHome = undefined;
+       lockedCells = undefined;
+
+       testingHome = new Array(this.length);
+
+       let borderDice = [...this.DiceAsIndex(index)];
+       
+       for(let row = borderDice[0],i=0; row<borderDice[1]; row++){
+         for (let col = borderDice[2]; col < borderDice[3]; col++,i++) {
+
+           if(!this.AllData[row][col][0]){
+             testingHome[i] = [...this.AllData[row][col].filter(num => num)];
+            }
+          }
+        }
+        lockedCells = [... this.testingHome([...testingHome])];
+        
+        if(lockedCells.length){
+          for (let i = 0; i < lockedCells.length; i+=2) {
+            this.deletingNeighborsOfLockedCells('dice',index,[...lockedCells[i]],[...lockedCells[i+1]]);
+          }
+        }
+      }
+    }
+  }
+    
+  private testingHome(home:number[][]):number[][]{
+
+    let allSame:number[][]=new Array();
+
+    for(let i=0; i<home.length; i++){
+
+      if (home[i] && home[i].length<=this.length/2) {
+
+        let same=[i];
+
+        for(let j=i+1; j<home.length; j++){
+
+          if( home[j] && this.areTheArraysTheSame([...home[i]],[...home[j]])){
+            same.push(j);
+          }
+        }
+        if(same.length==home[i].length){
+          allSame.push([...same]);  //index cells
+          allSame.push([...home[i]]);  //numbers
+        }
+      }
+    }
+    return [...allSame];
+  }
+
+  private deletingNeighborsOfLockedCells(home:string,index:number,exceptForCells:number[],numbers:number[]):void{
+     switch (home) {
+       case 'row':
+         let changRow:boolean;
+
+         for (let col = 0; col < this.length; col++) {
+
+           if(exceptForCells.indexOf(col)==-1 && !this.AllData[index][col][0]){
+
+             for (let num = 0; num < numbers.length; num++) {
+
+               if (this.AllData[index][col][numbers[num]]) {
+
+                 this.AllData[index][col][numbers[num]]=0;
+                 changRow=true;
+
+                 setTimeout(() => {
+                   this.OneCellOption(index,col);
+                 });
+               }
+             }
+           }
+         }
+         if(changRow){
+           console.log(`delete the whole numbers ${numbers} from row ${index} except for cells ${exceptForCells}`);
+         }
+        break;
+
+       case 'col':
+         let changCol:Boolean;
+
+         for (let row = 0; row < this.length; row++) {
+
+            if(exceptForCells.indexOf(row)==-1 && !this.AllData[row][index][0]){
+
+              for (let num = 0; num < numbers.length; num++) {
+
+                if (this.AllData[row][index][numbers[num]]) {
+                
+                  this.AllData[row][index][numbers[num]]=0;
+                  changCol=true;
+
+                  setTimeout(() => {
+                    this.OneCellOption(row,index);
+                  });
+                }
+              }
+            }
+          }
+          if(changCol){
+            console.log(`delete the whole numbers ${numbers} from col ${index} except for cells ${exceptForCells}`);
+          }
+        break;
+
+       case 'dice':
+
+         let changDice:Boolean;
+         let borderDice=this.DiceAsIndex(index); 
+
+          for (let row = borderDice[0],i=0; row < borderDice[1]; row++) {
+            for (let col = borderDice[2]; col < borderDice[3]; col++,i++) {
+              
+              if(exceptForCells.indexOf(i)==-1 && !this.AllData[row][col][0]){
+
+                for (let num = 0; num < numbers.length; num++) {
+
+                  if (this.AllData[row][col][numbers[num]]) {
+
+                    this.AllData[row][col][numbers[num]]=0;
+                    changDice=true;
+
+                    setTimeout(() => {
+                      this.OneCellOption(row,col);
+                    });
+                  }
+                }
+              }
+            }
+           }
+           if(changDice){
+             console.log(`delete the whole numbers ${numbers} from dice ${index} except for cells ${exceptForCells}`);
+           }
+         break;
+     }
+     
+  }
+
+  //functions auxiliary
+  
   private  DiceAsRowAndCol(row:number,col:number):any {
 
     let FirstRow = row - row%this.SubLen;
@@ -472,5 +670,19 @@ export class DataService {
    let LestCol = FirstCol+this.SubLen;
    
    return [FirstRow, LestRow , FirstCol , LestCol];
+  }
+
+  private areTheArraysTheSame(arr1:number[],arr2:number[]):boolean{
+
+    if (!arr2 || arr1.length!=arr2.length) {
+      return false;      
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+      if(arr1[i]!=arr2[i]){
+        return false;
+      }
+    }
+    return true;
   }
 }

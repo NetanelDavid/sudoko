@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ɵSWITCH_IVY_ENABLED__POST_R3__} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -56,12 +56,11 @@ export class DataService {
       setTimeout(() => {
         this.OneNumberOption();
         this.testingReducingOptions();
-      });
-    });
-    setTimeout(() => {
-      setTimeout(() => {
         setTimeout(() => {
           this.testingLockedCells();
+          setTimeout(() => {
+            this.testingLockedNumbers();
+          });
         });
       });
     });
@@ -534,7 +533,104 @@ export class DataService {
       }
     }
   }
+  
+  private testingLockedNumbers():void{
     
+    let testingHome:number[][];
+    for(let index = 0; index < this.length; index++){
+
+      testingHome=undefined;
+      testingHome=new Array(this.length);
+
+      for(let i=0; i< testingHome.length; i++){
+        testingHome[i]=new Array();
+      }
+
+      for(let col = 0; col < this.length; col++){
+
+        if(!this.AllData[index][col][0]){
+
+          for(let num=1; num<=this.length; num++){
+
+            if(this.AllData[index][col][num]){
+
+              testingHome[num-1].push(col);
+            }
+          }
+        }
+      }
+      let lockedNumbers = [...this.testingHome([...testingHome])];
+
+      if(lockedNumbers.length){
+        for(let i=0; i<lockedNumbers.length; i+=2){
+          this.deletingOptionsOfLockedNumbers('row',index,lockedNumbers[i],lockedNumbers[i+1]);
+        }
+      }
+
+      testingHome=undefined;
+      testingHome=new Array(this.length);
+
+      for(let i=0; i< testingHome.length; i++){
+        testingHome[i]=new Array();
+      }
+
+      for(let row = 0; row < this.length; row++){
+
+        if(!this.AllData[row][index][0]){
+
+          for(let num=1; num<=this.length; num++){
+
+            if(this.AllData[row][index][num]){
+
+              testingHome[num-1].push(row);
+            }
+          }
+        }
+      }
+
+      lockedNumbers = [...this.testingHome([...testingHome])];
+
+      if(lockedNumbers.length){
+        for(let i=0; i<lockedNumbers.length; i+=2){
+          this.deletingOptionsOfLockedNumbers('col',index,lockedNumbers[i],lockedNumbers[i+1]);
+        }
+      }
+      /**/
+      testingHome=undefined;
+      testingHome=new Array(this.length);
+
+      for(let i=0; i< testingHome.length; i++){
+        testingHome[i]=new Array();
+      }
+      let borderDice =this.DiceAsIndex(index);
+
+      for(let row =borderDice[0],i=0; row < borderDice[1]; row++){
+        for(let col =borderDice[2]; col <borderDice[3]; col++,i++){
+
+          
+          if(!this.AllData[row][col][0]){
+            
+            for(let num=1; num<=this.length; num++){
+              
+              if(this.AllData[row][col][num]){
+                
+                testingHome[num-1].push(i);
+              }
+            }
+          }
+        }
+      }
+        
+      lockedNumbers = [...this.testingHome([...testingHome])];
+
+      if(lockedNumbers.length){
+        for(let i=0; i<lockedNumbers.length; i+=2){
+          this.deletingOptionsOfLockedNumbers('dice',index,lockedNumbers[i],lockedNumbers[i+1]);
+        }
+      }
+    }
+  }
+
   private testingHome(home:number[][]):number[][]{
 
     let allSame:number[][]=new Array();
@@ -645,6 +741,81 @@ export class DataService {
          break;
      }
      
+  }
+
+  private deletingOptionsOfLockedNumbers(home:string,index:number,exceptForNumbers:number[],cells:number[]){
+
+    for(let i=0;i<exceptForNumbers.length; i++){
+      exceptForNumbers[i]++;
+    }
+
+    switch (home) {
+      case 'row': //delete options of Locked numbers at row
+        let cacheRow:Boolean; 
+        for (let col = 0; col < cells.length; col++) {
+          for (let num = 1; num <= this.length; num++) {
+            if(exceptForNumbers.indexOf(num)==-1 && this.AllData[index][cells[col]][num]){
+              this.AllData[index][cells[col]][num]=0;
+              cacheRow=true;
+
+              setTimeout(() => {
+                this.OneCellOption(index,cells[col]);
+              });
+            }
+          }
+        }
+        if (cacheRow) {
+          console.log(`in row ${index} at cells ${cells} delete whole numbers except For ${exceptForNumbers}`);
+        }
+      break;
+
+      case 'col': //delete options of Locked numbers at col
+        let cacheCol:Boolean; 
+        for (let row = 0; row < cells.length; row++) {
+          for (let num = 1; num <= this.length; num++) {
+            if(exceptForNumbers.indexOf(num)==-1 && this.AllData[cells[row]][index][num]){
+              this.AllData[cells[row]][index][num]=0;
+              cacheCol=true;
+
+              setTimeout(() => {
+                this.OneCellOption(cells[row],index);
+              });
+            }
+          }
+        }
+        if (cacheCol) {
+          console.log(`in col ${index} at cells ${cells} delete whole numbers except For ${exceptForNumbers}`);
+        }
+      break;
+
+      case 'dice'://delete options of Locked numbers at dice
+
+      let borderDice=this.DiceAsIndex(index),
+         cacheDice:Boolean; 
+
+      for (let row = borderDice[0],i=0; row < borderDice[1]; row++) {
+        for(let col=borderDice[2];col<borderDice[3]; col++,i++){
+
+          if(cells.indexOf(i)!=-1){
+
+            for (let num = 1; num <= this.length; num++) {
+              if(exceptForNumbers.indexOf(num)==-1 && this.AllData[row][col][num]){
+                this.AllData[row][col][num]=0;
+                cacheDice=true;
+                setTimeout(() => {
+                  this.OneCellOption(cells[row],index);
+                });   
+              }
+            }
+          }
+        }
+      }
+      if (cacheDice) {
+        console.log(`in dice ${index} at cells ${cells} delete whole numbers except For ${exceptForNumbers}`);
+      }
+    break;
+    }
+    
   }
 
   //functions auxiliary

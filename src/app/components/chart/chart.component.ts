@@ -58,6 +58,7 @@ export class ChartComponent implements OnInit {
         
       case 'Down':
       case 'ArrowDown': 
+      case 'Enter':
         this.focusing(this.dataService.length);
       break;
           
@@ -74,18 +75,29 @@ export class ChartComponent implements OnInit {
   }
             
   focusing(chang:number):void{
-
-    this.fokus+=chang;
+    
+    let max=Math.pow(this.dataService.length,2)-1;
+    
+    if(this.fokus==max && chang>0 ){
+      this.fokus=0;
+    }
+    else if(this.fokus==0 && chang<0 ){
+      this.fokus=max;
+    }
+    else{
+      this.fokus+=chang;
+    }
 
     if(this.fokus<0){
-      this.fokus=Math.pow(this.dataService.length,2)-1;
-    } else if(this.fokus>=Math.pow(this.dataService.length,2)){
-      this.fokus=0;
+      this.fokus += max;
+    }  else if(this.fokus > max){
+      this.fokus -= max;
     }
     document.getElementById(this.fokus+'').focus();
   }
-  clickFokus(f:number):void{
-    this.fokus=f;
+
+  clickFokus(f:string):void{
+    this.fokus=parseInt(f);
   }
             
 }

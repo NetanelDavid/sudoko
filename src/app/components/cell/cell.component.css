@@ -27,8 +27,9 @@
     border-bottom-width:thick;
   }
 
-  input[type=number].notAccepted:focus{
+  input.notAccepted:focus{
     background:rgb(211, 210, 210);
+    cursor: inherit;
   }
 
   input[type=number]::-webkit-inner-spin-button{ 

@@ -1,4 +1,3 @@
-import { style } from '@angular/animations';
 import { Component, Input, OnInit,OnChanges, Output ,EventEmitter, SimpleChanges} from '@angular/core';
 import { Class } from 'src/app/models/DivClaas.model';
 import { DataService } from 'src/app/servicess/data.service';
@@ -11,7 +10,7 @@ import { DataService } from 'src/app/servicess/data.service';
 
 export class CellComponent implements OnInit ,OnChanges{
 
-  @Output() fokus:EventEmitter<number>;
+  @Output() fokus:EventEmitter<string>;
 
   @Input()row:number;
   @Input()col:number;
@@ -38,6 +37,7 @@ export class CellComponent implements OnInit ,OnChanges{
     if(changes.NewPlay && changes.NewPlay.currentValue){
       this.accepted=false;
       this.DivClasses.accepted=false;
+      this.DivClasses.notAccepted=true;
       this.solution=false;
       this.value=null;
       this.full=false;
@@ -46,11 +46,15 @@ export class CellComponent implements OnInit ,OnChanges{
     else if (changes.solution && changes.solution.currentValue && !this.accepted) {
       this.value=this.dataService.AllData[this.row][this.col][0];
       this.full=true;
+      this.DivClasses.notAccepted=false;
     }
 
     else  if (changes.solution && !changes.solution.currentValue && !this.accepted) {
       this.value=null;
       this.full=false;
+      if(this.DivClasses){
+        this.DivClasses.notAccepted=true;
+      }
     }
 
   }
@@ -106,7 +110,7 @@ export class CellComponent implements OnInit ,OnChanges{
     }
   }
 
-  focusUpdate():void{
-    this.fokus.emit(this.row*this.dataService.length+this.col);
+  focusUpdate(f:string):void{
+    this.fokus.emit(f);
   }
 }

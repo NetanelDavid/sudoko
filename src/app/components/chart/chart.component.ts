@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnInit} from '@angular/core';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -14,12 +14,15 @@ export class ChartComponent implements OnInit {
   IsNewPlay:boolean;
   TextSolution:string;
   length:number;
+  fokus:number;
  
-  constructor(public dataService :DataService) { 
+  constructor(public dataService :DataService) {
+    this.fokus=-1; 
     this.length=this.dataService.length;
     this.dataService.difflength();
     this.arr = new Array(this.dataService.length);
     this.TextSolution='פתור';
+    
   }
 
   solution():void{
@@ -41,5 +44,49 @@ export class ChartComponent implements OnInit {
     }
   }
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
+  
+  @HostListener('document:keyup', ['$event'])
+  onKayUp(e:KeyboardEvent):void{
+    switch (e.key) {
+      
+      case 'Up':
+      case 'ArrowUp': 
+        this.focusing(-this.dataService.length);
+      break;
+        
+      case 'Down':
+      case 'ArrowDown': 
+        this.focusing(this.dataService.length);
+      break;
+          
+      case 'Left':
+      case 'ArrowLeft':
+        this.focusing(-1);
+      break;
+            
+      case 'Right':
+      case 'ArrowRight':
+        this.focusing(1);
+      break;
+    }
+  }
+            
+  focusing(chang:number):void{
+
+    this.fokus+=chang;
+
+    if(this.fokus<0){
+      this.fokus=Math.pow(this.dataService.length,2)-1;
+    } else if(this.fokus>=Math.pow(this.dataService.length,2)){
+      this.fokus=0;
+    }
+    document.getElementById(this.fokus+'').focus();
+  }
+  clickFokus(f:number):void{
+    this.fokus=f;
+  }
+            
 }
+          

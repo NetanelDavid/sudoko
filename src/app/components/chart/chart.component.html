@@ -1,6 +1,6 @@
 <div class="margin" [ngStyle]='{width:40*dataService.length+"px"}'>
   <ng-container *ngFor="let a of arr; let i = index">
-    <app-cell 
+    <app-cell (fokus)='clickFokus($event)'
      *ngFor='let b of arr; let j = index'
      [row]='i'
      [col]='j'
@@ -10,8 +10,6 @@
     <br>
   </ng-container> 
 </div>
-
-
 
 <div class="pozisen"  [ngStyle]="{left:40*dataService.length+70+'px'}">
  <p><button class='btn btn-success width-button' (click)='solution()'>{{TextSolution}}</button></p>

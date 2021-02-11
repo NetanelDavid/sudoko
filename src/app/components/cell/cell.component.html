@@ -1,11 +1,10 @@
-
-<input 
+<input (click)='focusUpdate()'
 type='number'
 [ngClass]='DivClasses'
 [(ngModel)]='value'
 [readonly]='full'
 (blur)='validation()'
-[id]='row*length+col'
 max='length'
 min=1
+[id]="row*length+col+''"
 >

@@ -3,7 +3,6 @@ import { Component, Input, OnInit,OnChanges, Output ,EventEmitter, SimpleChanges
 import { Class } from 'src/app/models/DivClaas.model';
 import { DataService } from 'src/app/servicess/data.service';
 
-
 @Component({
   selector: 'app-cell',
   templateUrl: './cell.component.html',
@@ -12,11 +11,13 @@ import { DataService } from 'src/app/servicess/data.service';
 
 export class CellComponent implements OnInit ,OnChanges{
 
+  @Output() fokus:EventEmitter<number>;
+
   @Input()row:number;
   @Input()col:number;
   
-  @Input()solution:boolean;
-  @Input()NewPlay:boolean;
+  @Input() solution:boolean;
+  @Input() NewPlay:boolean;
 
   value:number; 
   full:boolean;
@@ -26,7 +27,8 @@ export class CellComponent implements OnInit ,OnChanges{
   length:number;
   subLength:number;
 
-  constructor(private dataService:DataService) {
+  constructor(public dataService:DataService) {
+    this.fokus = new EventEmitter();
     this.length=dataService.length;
     this.subLength=this.dataService.SubLen;
   }
@@ -50,6 +52,7 @@ export class CellComponent implements OnInit ,OnChanges{
       this.value=null;
       this.full=false;
     }
+
   }
 
   ngOnInit(): void {
@@ -89,6 +92,7 @@ export class CellComponent implements OnInit ,OnChanges{
    }, 0.125 * 1000);
   }
 
+
   UpdateClasses():void{
     this.DivClasses={
       cell:true,
@@ -100,5 +104,9 @@ export class CellComponent implements OnInit ,OnChanges{
       accepted :false,
       notAccepted:true,
     }
+  }
+
+  focusUpdate():void{
+    this.fokus.emit(this.row*this.dataService.length+this.col);
   }
 }

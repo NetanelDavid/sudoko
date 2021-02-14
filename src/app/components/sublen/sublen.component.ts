@@ -34,7 +34,7 @@ export class SublenComponent implements OnInit {
   }
 
   @HostListener('document:keyup', ['$event'])
-  onKayUp(e:KeyboardEvent):void{
+  KayDown(e:KeyboardEvent):void{
     switch (e.key) {
 
       case 'Control':

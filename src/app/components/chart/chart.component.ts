@@ -30,7 +30,7 @@ export class ChartComponent implements OnInit {
     this.IsSolution=!this.IsSolution;
     this.TextSolution=this.TextSolution=='פתור'?'הסר פתרון':'פתור';
     if(id){
-      this.clickfocus(id);
+      this.clickFocus(id);
     }
   }
 

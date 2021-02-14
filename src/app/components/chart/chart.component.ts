@@ -13,92 +13,173 @@ export class ChartComponent implements OnInit {
   IsSolution:boolean; 
   IsNewPlay:boolean;
   TextSolution:string;
-  length:number;
-  fokus:number;
+
+  focusC:number;
+  focusB:number;
+  typeFocus:string;
  
   constructor(public dataService :DataService) {
-    this.fokus=-1; 
-    this.length=this.dataService.length;
+    this.resetFocus();
     this.dataService.difflength();
     this.arr = new Array(this.dataService.length);
     this.TextSolution='פתור';
     
   }
 
-  solution():void{
+  solution(id?:string):void{
     this.IsSolution=!this.IsSolution;
     this.TextSolution=this.TextSolution=='פתור'?'הסר פתרון':'פתור';
+    if(id){
+      this.clickfocus(id);
+    }
   }
 
-  NewPlay():void{
+  NewPlay(id:string):void{
 
     this.dataService.NewPlay();
+    document.getElementById(id).blur();
+    setTimeout(() => {
+      this.resetFocus();
+    }, 95);
 
     this.IsNewPlay=true;
     setTimeout(() => {
       this.IsNewPlay=false;
-    }, 0);
+    });
 
     if(this.IsSolution){
       this.solution();
     }
   }
   
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
   
   @HostListener('document:keyup', ['$event'])
-  onKayUp(e:KeyboardEvent):void{
+  KayDown(e:KeyboardEvent):void{
     switch (e.key) {
-      
+
       case 'Up':
       case 'ArrowUp': 
-        this.focusing(-this.dataService.length);
+        this.shiftFocus(-this.dataService.length);
       break;
         
       case 'Down':
-      case 'ArrowDown': 
-      case 'Enter':
-        this.focusing(this.dataService.length);
+      case 'ArrowDown':
+        this.shiftFocus(this.dataService.length);
       break;
           
       case 'Left':
-      case 'ArrowLeft':
-        this.focusing(-1);
+      case 'ArrowLeft':  
+        this.shiftFocus(-1);
       break;
             
       case 'Right':
       case 'ArrowRight':
-        this.focusing(1);
+        this.shiftFocus(1);
+      break;
+
+      case 'Control':
+        this.shiftFocus(0); 
+      break; 
+      
+     case 'Enter':
+        this.enter();
       break;
     }
   }
-            
-  focusing(chang:number):void{
-    
-    let max=Math.pow(this.dataService.length,2)-1;
-    
-    if(this.fokus==max && chang>0 ){
-      this.fokus=0;
-    }
-    else if(this.fokus==0 && chang<0 ){
-      this.fokus=max;
-    }
-    else{
-      this.fokus+=chang;
-    }
 
-    if(this.fokus<0){
-      this.fokus += max;
-    }  else if(this.fokus > max){
-      this.fokus -= max;
+  enter():void{
+    if(this.typeFocus=='c'){
+      this.shiftFocus(this.dataService.length);
     }
-    document.getElementById(this.fokus+'').focus();
-  }
-
-  clickFokus(f:string):void{
-    this.fokus=parseInt(f);
   }
             
+  shiftFocus(chang:number):void{
+
+    if(chang==0){
+      if(this.typeFocus=='b'){
+        this.typeFocus='c';
+        if(this.focusC==-1){
+          this.focusC++;
+        }
+        this.focusing(this.focusC);
+      } else {
+        this.typeFocus='b';
+        this.focusB=0;
+        this.focusing(this.focusB);
+      }
+      return;
+    }
+
+    if(this.typeFocus=='c'){
+
+      if(this.IsSolution){
+        return;
+      }
+
+      let max=Math.pow(this.dataService.length,2)-1;
+      
+      if(this.focusC==-1 && chang>0){
+        this.focusC=0;
+      } else if (this.focusC==-1 && chang<0) {
+        this.focusC=max;      
+      } else if(this.focusC==max && chang>0 ){
+        this.focusC=0;
+      } else if(this.focusC==0 && chang<0 ){
+        this.focusC=max;
+      } else{
+        this.focusC+=chang;
+      }
+      
+      if(this.focusC<0){
+        this.focusC += max;
+      }  else if(this.focusC > max){
+        this.focusC -= max;
+      }
+     this.focusing(this.focusC);
+    }
+    
+    if(this.typeFocus=='b'){
+      
+      let max = 2;
+      
+      if (chang>0) {
+        this.focusB++;
+      } else if(chang<0){
+        this.focusB--;
+      }
+      
+      if(this.focusB>max){
+        this.focusB = 0;
+      } else if(this.focusB<0){
+        this.focusB=max;
+      }
+      this.focusing(this.focusB);
+    }
+  }
+
+  focusing(i:number){
+    document.getElementById(this.typeFocus+i).focus();
+  }  
+
+  clickfocus(id:string):void{
+
+    this.typeFocus=id.substring(0,1);
+
+    if(this.typeFocus=='c'){
+      this.focusC=parseInt(id.substring(1));
+    } else if(this.typeFocus=='b'){
+      this.focusB=parseInt(id.substring(1));
+    }
+  }
+
+  resetFocus():void{
+    this.typeFocus='c';
+    this.focusC=-1;
+    this.focusB=0;
+  }
+
+
+  
 }
           

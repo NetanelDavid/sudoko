@@ -2,7 +2,9 @@
 
   <p class="mx-auto" style="width: 113px;">:בחר גודל קובייה</p>
 
-  <input class="input"
+  <input 
+  id=0
+  class="input"
   type='number'
   [(ngModel)]='SubLength'
   [max]='MaxSubLength'
@@ -10,7 +12,7 @@
   (change)='DiffLength()'
   placeholder=3>
 
-  <button  class="button btn btn-light " [routerLink]='["play"]' >שחק</button>
+  <button id=1 class="button btn btn-light " [routerLink]='["play"]' >שחק</button>
 </div>
 
 

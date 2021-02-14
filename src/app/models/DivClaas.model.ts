@@ -6,5 +6,5 @@ export interface Class {
     bottom:boolean,
     error:Boolean,
     accepted:boolean,
-    notAccepted:boolean,
+    focus:boolean,
 }

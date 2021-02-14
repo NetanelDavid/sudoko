@@ -10,7 +10,7 @@ import { DataService } from 'src/app/servicess/data.service';
 
 export class CellComponent implements OnInit ,OnChanges{
 
-  @Output() fokus:EventEmitter<string>;
+  @Output() focus:EventEmitter<string>;
 
   @Input()row:number;
   @Input()col:number;
@@ -27,7 +27,7 @@ export class CellComponent implements OnInit ,OnChanges{
   subLength:number;
 
   constructor(public dataService:DataService) {
-    this.fokus = new EventEmitter();
+    this.focus = new EventEmitter();
     this.length=dataService.length;
     this.subLength=this.dataService.SubLen;
   }
@@ -37,7 +37,7 @@ export class CellComponent implements OnInit ,OnChanges{
     if(changes.NewPlay && changes.NewPlay.currentValue){
       this.accepted=false;
       this.DivClasses.accepted=false;
-      this.DivClasses.notAccepted=true;
+      this.DivClasses.focus=true;
       this.solution=false;
       this.value=null;
       this.full=false;
@@ -46,14 +46,14 @@ export class CellComponent implements OnInit ,OnChanges{
     else if (changes.solution && changes.solution.currentValue && !this.accepted) {
       this.value=this.dataService.AllData[this.row][this.col][0];
       this.full=true;
-      this.DivClasses.notAccepted=false;
+      this.DivClasses.focus=false;
     }
 
     else  if (changes.solution && !changes.solution.currentValue && !this.accepted) {
       this.value=null;
       this.full=false;
       if(this.DivClasses){
-        this.DivClasses.notAccepted=true;
+        this.DivClasses.focus=true;
       }
     }
 
@@ -81,7 +81,7 @@ export class CellComponent implements OnInit ,OnChanges{
   Accepted():void{
     this.accepted=true;
     this.DivClasses.accepted=true;
-    this.DivClasses.notAccepted=false;
+    this.DivClasses.focus=false;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }
@@ -106,11 +106,12 @@ export class CellComponent implements OnInit ,OnChanges{
       bottom: this.row==this.length-1,
       error:false,
       accepted :false,
-      notAccepted:true,
+      focus:true,
     }
   }
 
   focusUpdate(f:string):void{
-    this.fokus.emit(f);
+    this.focus.emit(f);
   }
+
 }

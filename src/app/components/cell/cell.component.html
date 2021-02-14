@@ -1,11 +1,10 @@
 <input #cell (click)='focusUpdate(cell.id)'
+[placeholder]=''
 type='text'
 inputmode="numeric"
 [ngClass]='DivClasses'
 [(ngModel)]='value'
 [readonly]='full'
 (blur)='validation()'
-[max]='length'
-min=1
-[id]="row*length+col+''"
+[id]="'c'+(row*length+col)"
 >

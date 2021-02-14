@@ -1,5 +1,4 @@
-
-  .cell{  
+ .cell{  
     outline-width: 0px;
     height:40px;
     width:40px; 
@@ -9,6 +8,7 @@
     text-align: center;
     padding:0px;
     font-size:115%;
+    border-radius: 0px;
   }
   
  .left{  
@@ -27,15 +27,6 @@
     border-bottom-width:thick;
   }
 
-  input.notAccepted:focus{
-    background:rgb(211, 210, 210);
-    cursor: inherit;
-  }
-
-  input[type=number]::-webkit-inner-spin-button{ 
-    -webkit-appearance:none;  
-  }
-
   .accepted{
     background:rgb(176, 179, 176);
     color: blue;
@@ -43,4 +34,8 @@
 
   .error{
     background:rgb(240, 77, 77);
+  }
+
+  input.focus:focus{
+    background:rgb(211, 210, 210);
   }

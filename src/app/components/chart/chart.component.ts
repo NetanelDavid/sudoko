@@ -162,7 +162,7 @@ export class ChartComponent implements OnInit {
     document.getElementById(this.typeFocus+i).focus();
   }  
 
-  clickfocus(id:string):void{
+  clickFocus(id:string):void{
 
     this.typeFocus=id.substring(0,1);
 

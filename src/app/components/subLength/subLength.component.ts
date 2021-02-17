@@ -2,35 +2,35 @@ import { Component, OnInit, Output ,EventEmitter, HostListener } from '@angular/
 import { DataService, } from 'src/app/servicess/data.service';
 
 @Component({
-  selector: 'app-sublen',
-  templateUrl: './sublen.component.html',
-  styleUrls: ['./sublen.component.css']
+  selector: 'app-sublength',
+  templateUrl: './sublength.component.html',
+  styleUrls: ['./sublength.component.css']
 })
 export class SublenComponent implements OnInit {
   
-  SubLength:number;
-  MaxSubLength:number;
-  MinSubLength:number;
+  subLength:number;
+  maxSubLength:number;
+  minSubLength:number;
   focus:number;
   
   HeightBackground = window.innerHeight;
   
   constructor(private dataservice:DataService) {
     this.focus=0;
-    this.MaxSubLength=dataservice.MaxSubLength;
-    this.MinSubLength=dataservice.MinSubLength;
+    this.maxSubLength=dataservice.maxSubLength;
+    this.minSubLength=dataservice.minSubLength;
   }
   
   ngOnInit(): void {
     document.getElementById(this.focus+'').focus();
   }
   
-  DiffLength():void{
-    if(this.SubLength > this.dataservice.MaxSubLength || this.SubLength < this.dataservice.MinSubLength || !this.SubLength){
-      this.SubLength = this.dataservice.DefaultSubLength;
+  diffLength():void{
+    if(this.subLength > this.dataservice.maxSubLength || this.subLength < this.dataservice.minSubLength || !this.subLength){
+      this.subLength = this.dataservice.defaultSubLength;
     }
     
-    this.dataservice.SubLen=this.SubLength;
+    this.dataservice.subLength=this.subLength;
   }
 
   @HostListener('document:keyup', ['$event'])

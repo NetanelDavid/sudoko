@@ -29,7 +29,7 @@ export class CellComponent implements OnInit ,OnChanges{
   constructor(public dataService:DataService) {
     this.focus = new EventEmitter();
     this.length=dataService.length;
-    this.subLength=this.dataService.SubLen;
+    this.subLength=this.dataService.subLength;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,7 +44,7 @@ export class CellComponent implements OnInit ,OnChanges{
     }
 
     else if (changes.solution && changes.solution.currentValue && !this.accepted) {
-      this.value=this.dataService.AllData[this.row][this.col][0];
+      this.value=this.dataService.allData[this.row][this.col][0];
       this.full=true;
       this.DivClasses.focus=false;
     }
@@ -69,7 +69,7 @@ export class CellComponent implements OnInit ,OnChanges{
       return;
     }
 
-    else if(this.dataService.AllData[this.row][this.col][this.value]==this.value){
+    else if(this.dataService.allData[this.row][this.col][this.value]==this.value){
       this.Accepted();
     }
 

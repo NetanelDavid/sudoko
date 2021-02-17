@@ -6,22 +6,22 @@ import {Injectable, ɵSWITCH_IVY_ENABLED__POST_R3__} from '@angular/core';
 
 export class DataService {
   
-  DefaultSubLength=3;
-  MinSubLength=2;
-  MaxSubLength=6;
-  SubLen:number;
+  defaultSubLength=3;
+  minSubLength=2;
+  maxSubLength=6;
+  subLength:number;
   length:number;
-  AllData:number[][][];
+  allData:number[][][];
 
   constructor() {
-    this.SubLen=this.DefaultSubLength;
+    this.subLength=this.defaultSubLength;
   }
   
   NewPlay():void {
     for (let a=0; a<this.length; a++) {
       for (let b=0; b<this.length; b++) {
         for (let c=0; c<this.length+1; c++) {
-          this.AllData[a][b][c]= c==0 ? null : c;
+          this.allData[a][b][c]= c==0 ? null : c;
         }
       }
     }
@@ -30,14 +30,14 @@ export class DataService {
 
   difflength():void{
 
-    this.length=Math.pow(this.SubLen,2);
-    this.AllData=new Array(this.length);
+    this.length=Math.pow(this.subLength,2);
+    this.allData=new Array(this.length);
     for (let a=0; a<this.length; a++) {
-      this.AllData[a]=new Array(this.length);
+      this.allData[a]=new Array(this.length);
       for (let b=0; b<this.length; b++) {
-        this.AllData[a][b]=new Array(this.length+1);
+        this.allData[a][b]=new Array(this.length+1);
         for (let c=0; c<this.length+1; c++) {
-          this.AllData[a][b][c]= c==0 ? null : c;
+          this.allData[a][b][c]= c==0 ? null : c;
         }
       }
     }
@@ -67,11 +67,11 @@ export class DataService {
   }
 
   private SetNumber(row:number,col:number,value:number):void{
-    this.AllData[row][col][0]=value;
+    this.allData[row][col][0]=value;
 
     for (let i = 1; i < this.length+1; i++) {
       if(i!=value){
-        this.AllData[row][col][i]=0;
+        this.allData[row][col][i]=0;
       }
     }
     
@@ -81,7 +81,7 @@ export class DataService {
    for (let i = 0; i < this.length; i++) {
       if(i!=col){
 
-        this.AllData[row][i][value]=0; //delete row
+        this.allData[row][i][value]=0; //delete row
 
         setTimeout(() => {
           this.OneCellOption(row,i);          
@@ -90,7 +90,7 @@ export class DataService {
 
       if(i!=row){
 
-        this.AllData[i][col][value]=0; //delete col
+        this.allData[i][col][value]=0; //delete col
 
         setTimeout(() => {
           this.OneCellOption(i,col);         
@@ -104,7 +104,7 @@ export class DataService {
 
         if(a!=row && b!=col){
 
-          this.AllData[a][b][value]=0;  //delete dice
+          this.allData[a][b][value]=0;  //delete dice
 
           setTimeout(() => {
             this.OneCellOption(a,b);
@@ -116,7 +116,7 @@ export class DataService {
   }
 
   private OneCellOption(row:number,col:number):void{
-    if( this.AllData[row][col][0]>0){
+    if( this.allData[row][col][0]>0){
       return;
     }
 
@@ -124,7 +124,7 @@ export class DataService {
         ICounter:number;
 
     for (let i=1; i <= this.length && counter<2; i++) {
-      if(this.AllData[row][col][i]>0){
+      if(this.allData[row][col][i]>0){
         counter++;
         ICounter=i;
       }   
@@ -146,11 +146,11 @@ export class DataService {
 
         for (let b = 0; b < this.length && CounterRow<2; b++) {
 
-          if(this.AllData[a][b][0]==c){
+          if(this.allData[a][b][0]==c){
             break;
           }
 
-          if(this.AllData[a][b][c]==c){
+          if(this.allData[a][b][c]==c){
             CounterRow++;
             ICounterRow=b;
           }
@@ -170,11 +170,11 @@ export class DataService {
 
         for (let b = 0; b < this.length && CounterCol<2; b++) {
 
-          if(this.AllData[b][a][0]==c){
+          if(this.allData[b][a][0]==c){
             break;
           }
 
-          if(this.AllData[b][a][c]==c){
+          if(this.allData[b][a][c]==c){
             CounterCol++;
             ICounterCol=b;
           }
@@ -197,11 +197,11 @@ export class DataService {
         for (let b1 = BorderDice[0]; b1 < BorderDice[1] && CounterDice<2; b1++) {
           for (let b2 = BorderDice[2]; b2 < BorderDice[3] && CounterDice<2; b2++) {
          
-            if(this.AllData[b1][b2][0]==c){
+            if(this.allData[b1][b2][0]==c){
               break l;
             }
 
-            if(this.AllData[b1][b2][c]==c){
+            if(this.allData[b1][b2][c]==c){
               CounterDice++;
               ICounterDice=[b1,b2];
             }
@@ -237,7 +237,7 @@ export class DataService {
               if(row==exceptForTheRow){
                 if(row==brodersDice[0]){
                   for(let _col=brodersDice[2];_col<brodersDice[3];_col++){
-                    if(this.AllData[row][_col][0]==numberForTesting){
+                    if(this.allData[row][_col][0]==numberForTesting){
                       break numberExistsInTheDice;
                     }
                   }
@@ -245,16 +245,16 @@ export class DataService {
                 break;
               }
 
-              if(this.AllData[row][col][0]==numberForTesting){
+              if(this.allData[row][col][0]==numberForTesting){
                 break numberExistsInTheDice;
               }
 
-              if(this.AllData[row][col][numberForTesting]){
+              if(this.allData[row][col][numberForTesting]){
                 break notEverythingIsEmpty;
               }
 
               counterRow++;
-              if(counterRow==this.length-this.SubLen){
+              if(counterRow==this.length-this.subLength){
                 this.reducingOptions(numberForTesting,exceptForTheRow,null,null,null,null,indexDice);
               }
             }
@@ -272,13 +272,13 @@ export class DataService {
                 break;
               }
               
-              if(this.AllData[row][col][numberForTesting]){
+              if(this.allData[row][col][numberForTesting]){
                 break notEverythingIsEmpty;
               }
               
               CounterCol++;
               
-              if(CounterCol==this.length-this.SubLen){
+              if(CounterCol==this.length-this.subLength){
                 this.reducingOptions(numberForTesting,null,exceptForTheCol,null,null,null,indexDice);
               }
             }
@@ -298,12 +298,12 @@ export class DataService {
               }
             }
 
-            if(this.AllData[row][col][numberForTesting]){
+            if(this.allData[row][col][numberForTesting]){
               break;
             }           
             counter++;
           }
-          if(counter==this.length-this.SubLen){
+          if(counter==this.length-this.subLength){
             this.reducingOptions(numberForTesting,null,null,indexDice,row,null,null);
           }
         }
@@ -321,12 +321,12 @@ export class DataService {
               }
             }
 
-            if(this.AllData[row][col][numberForTesting]){
+            if(this.allData[row][col][numberForTesting]){
               break;
             }           
             counter++;
           }
-          if(counter==this.length-this.SubLen){
+          if(counter==this.length-this.subLength){
             this.reducingOptions(numberForTesting,null,null,indexDice,null,col,null);
           }
         }
@@ -347,8 +347,8 @@ export class DataService {
             break;
          }
        }
-       if( this.AllData[row][_col][num]){
-          this.AllData[row][_col][num]=0; 
+       if( this.allData[row][_col][num]){
+          this.allData[row][_col][num]=0; 
           setTimeout(() => {
             this.OneCellOption(row,_col);
           });
@@ -377,8 +377,8 @@ export class DataService {
             break;
          }
        }
-       if( this.AllData[_row][col][num]){
-          this.AllData[_row][col][num]=0;
+       if( this.allData[_row][col][num]){
+          this.allData[_row][col][num]=0;
           setTimeout(() => {
             this.OneCellOption(_row,col); 
           });
@@ -406,8 +406,8 @@ export class DataService {
           if(_row==exceptForRow){
             break;
           }
-          if(this.AllData[_row][_col][num]){
-            this.AllData[_row][_col][num]=0;
+          if(this.allData[_row][_col][num]){
+            this.allData[_row][_col][num]=0;
             isChange=true;
             setTimeout(() => {
               this.OneCellOption(_row,_col);
@@ -435,8 +435,8 @@ export class DataService {
           if(_col==exceptForCol){
             break;
           }
-          if(this.AllData[_row][_col][num]){
-            this.AllData[_row][_col][num]=0;
+          if(this.allData[_row][_col][num]){
+            this.allData[_row][_col][num]=0;
             isChange=true;
             setTimeout(() => {
               this.OneCellOption(_row,_col);
@@ -471,8 +471,8 @@ export class DataService {
         
         for (let col = 0; col < this.length; col++) { 
           
-          if(!this.AllData[index][col][0]){
-            testingHome[col]=[...this.AllData[index][col].filter(num => num)];
+          if(!this.allData[index][col][0]){
+            testingHome[col]=[...this.allData[index][col].filter(num => num)];
           }
         }
         lockedCells = [...this.testingHome([...testingHome])];
@@ -493,8 +493,8 @@ export class DataService {
         
         for(let row = 0; row<this.length; row++){
           
-          if(!this.AllData[row][index][0]){
-            testingHome[row]=[...this.AllData[row][index].filter(num => num)];
+          if(!this.allData[row][index][0]){
+            testingHome[row]=[...this.allData[row][index].filter(num => num)];
           }
         }
         lockedCells = [...this.testingHome([...testingHome])];
@@ -518,8 +518,8 @@ export class DataService {
        for(let row = borderDice[0],i=0; row<borderDice[1]; row++){
          for (let col = borderDice[2]; col < borderDice[3]; col++,i++) {
 
-           if(!this.AllData[row][col][0]){
-             testingHome[i] = [...this.AllData[row][col].filter(num => num)];
+           if(!this.allData[row][col][0]){
+             testingHome[i] = [...this.allData[row][col].filter(num => num)];
             }
           }
         }
@@ -548,11 +548,11 @@ export class DataService {
 
       for(let col = 0; col < this.length; col++){
 
-        if(!this.AllData[index][col][0]){
+        if(!this.allData[index][col][0]){
 
           for(let num=1; num<=this.length; num++){
 
-            if(this.AllData[index][col][num]){
+            if(this.allData[index][col][num]){
 
               testingHome[num-1].push(col);
             }
@@ -576,11 +576,11 @@ export class DataService {
 
       for(let row = 0; row < this.length; row++){
 
-        if(!this.AllData[row][index][0]){
+        if(!this.allData[row][index][0]){
 
           for(let num=1; num<=this.length; num++){
 
-            if(this.AllData[row][index][num]){
+            if(this.allData[row][index][num]){
 
               testingHome[num-1].push(row);
             }
@@ -608,11 +608,11 @@ export class DataService {
         for(let col =borderDice[2]; col <borderDice[3]; col++,i++){
 
           
-          if(!this.AllData[row][col][0]){
+          if(!this.allData[row][col][0]){
             
             for(let num=1; num<=this.length; num++){
               
-              if(this.AllData[row][col][num]){
+              if(this.allData[row][col][num]){
                 
                 testingHome[num-1].push(i);
               }
@@ -663,13 +663,13 @@ export class DataService {
 
          for (let col = 0; col < this.length; col++) {
 
-           if(exceptForCells.indexOf(col)==-1 && !this.AllData[index][col][0]){
+           if(exceptForCells.indexOf(col)==-1 && !this.allData[index][col][0]){
 
              for (let num = 0; num < numbers.length; num++) {
 
-               if (this.AllData[index][col][numbers[num]]) {
+               if (this.allData[index][col][numbers[num]]) {
 
-                 this.AllData[index][col][numbers[num]]=0;
+                 this.allData[index][col][numbers[num]]=0;
                  changRow=true;
 
                  setTimeout(() => {
@@ -689,13 +689,13 @@ export class DataService {
 
          for (let row = 0; row < this.length; row++) {
 
-            if(exceptForCells.indexOf(row)==-1 && !this.AllData[row][index][0]){
+            if(exceptForCells.indexOf(row)==-1 && !this.allData[row][index][0]){
 
               for (let num = 0; num < numbers.length; num++) {
 
-                if (this.AllData[row][index][numbers[num]]) {
+                if (this.allData[row][index][numbers[num]]) {
                 
-                  this.AllData[row][index][numbers[num]]=0;
+                  this.allData[row][index][numbers[num]]=0;
                   changCol=true;
 
                   setTimeout(() => {
@@ -718,13 +718,13 @@ export class DataService {
           for (let row = borderDice[0],i=0; row < borderDice[1]; row++) {
             for (let col = borderDice[2]; col < borderDice[3]; col++,i++) {
               
-              if(exceptForCells.indexOf(i)==-1 && !this.AllData[row][col][0]){
+              if(exceptForCells.indexOf(i)==-1 && !this.allData[row][col][0]){
 
                 for (let num = 0; num < numbers.length; num++) {
 
-                  if (this.AllData[row][col][numbers[num]]) {
+                  if (this.allData[row][col][numbers[num]]) {
 
-                    this.AllData[row][col][numbers[num]]=0;
+                    this.allData[row][col][numbers[num]]=0;
                     changDice=true;
 
                     setTimeout(() => {
@@ -754,8 +754,8 @@ export class DataService {
         let cacheRow:Boolean; 
         for (let col = 0; col < cells.length; col++) {
           for (let num = 1; num <= this.length; num++) {
-            if(exceptForNumbers.indexOf(num)==-1 && this.AllData[index][cells[col]][num]){
-              this.AllData[index][cells[col]][num]=0;
+            if(exceptForNumbers.indexOf(num)==-1 && this.allData[index][cells[col]][num]){
+              this.allData[index][cells[col]][num]=0;
               cacheRow=true;
 
               setTimeout(() => {
@@ -773,8 +773,8 @@ export class DataService {
         let cacheCol:Boolean; 
         for (let row = 0; row < cells.length; row++) {
           for (let num = 1; num <= this.length; num++) {
-            if(exceptForNumbers.indexOf(num)==-1 && this.AllData[cells[row]][index][num]){
-              this.AllData[cells[row]][index][num]=0;
+            if(exceptForNumbers.indexOf(num)==-1 && this.allData[cells[row]][index][num]){
+              this.allData[cells[row]][index][num]=0;
               cacheCol=true;
 
               setTimeout(() => {
@@ -799,8 +799,8 @@ export class DataService {
           if(cells.indexOf(i)!=-1){
 
             for (let num = 1; num <= this.length; num++) {
-              if(exceptForNumbers.indexOf(num)==-1 && this.AllData[row][col][num]){
-                this.AllData[row][col][num]=0;
+              if(exceptForNumbers.indexOf(num)==-1 && this.allData[row][col][num]){
+                this.allData[row][col][num]=0;
                 cacheDice=true;
                 setTimeout(() => {
                   this.OneCellOption(cells[row],index);
@@ -822,11 +822,11 @@ export class DataService {
   
   private  DiceAsRowAndCol(row:number,col:number):any {
 
-    let FirstRow = row - row%this.SubLen;
-    let LestRow = FirstRow +this.SubLen;
+    let FirstRow = row - row%this.subLength;
+    let LestRow = FirstRow +this.subLength;
  
-    let FirstCol = col - col%this.SubLen;
-    let LestCol = FirstCol +this.SubLen;
+    let FirstCol = col - col%this.subLength;
+    let LestCol = FirstCol +this.subLength;
  
     return [FirstRow,LestRow,FirstCol,LestCol];
  
@@ -834,11 +834,11 @@ export class DataService {
 
   private DiceAsIndex(b:number):any{
 
-   let FirstRow = b - b%this.SubLen;
-   let LestRow = FirstRow+this.SubLen;
+   let FirstRow = b - b%this.subLength;
+   let LestRow = FirstRow+this.subLength;
 
-   let FirstCol = b%this.SubLen*this.SubLen;
-   let LestCol = FirstCol+this.SubLen;
+   let FirstCol = b%this.subLength*this.subLength;
+   let LestCol = FirstCol+this.subLength;
    
    return [FirstRow, LestRow , FirstCol , LestCol];
   }

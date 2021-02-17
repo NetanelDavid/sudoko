@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app/app.component';
 import { CellComponent } from './components/cell/cell.component';
 import { ChartComponent } from './components/chart/chart.component';
-import { SublenComponent } from './components/sublen/sublen.component';
+import { SublenComponent } from './components/subLength/subLength.component';
 
 const routes: Routes =[
   {path: '', component:SublenComponent},

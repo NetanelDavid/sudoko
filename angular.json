@@ -121,5 +121,8 @@
       }
     }
   },
-  "defaultProject": "sudoko"
+  "defaultProject": "sudoko",
+  "cli": {
+    "analytics": "e5ce971b-7a6e-4042-93dd-9145da1df06e"
+  }
 }

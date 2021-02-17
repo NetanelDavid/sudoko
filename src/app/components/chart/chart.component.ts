@@ -1,4 +1,5 @@
-import { Component, HostListener, Input, OnInit} from '@angular/core';
+import { Component, HostListener, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -18,13 +19,23 @@ export class ChartComponent implements OnInit {
   focusB:number;
   typeFocus:string;
  
-  constructor(public dataService :DataService) {
+  constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute) {
     this.resetFocus();
-    this.dataService.difflength();
-    this.arr = new Array(this.dataService.length);
+    
     this.TextSolution='פתור';
     
   }
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(
+      prameter => {
+        const subLength = +prameter.get('size');
+        this.dataService.setSubLength(subLength)
+        this.dataService.difflength();
+        this.arr = new Array(this.dataService.length);
+      }
+    )
+   }
 
   solution(id?:string):void{
     this.IsSolution=!this.IsSolution;
@@ -51,8 +62,6 @@ export class ChartComponent implements OnInit {
       this.solution();
     }
   }
-  
-  ngOnInit(): void { }
   
   @HostListener('document:keyup', ['$event'])
   KayDown(e:KeyboardEvent):void{

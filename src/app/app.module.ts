@@ -11,6 +11,7 @@ import { SublenComponent } from './components/subLength/subLength.component';
 const routes: Routes =[
   {path: '', component:SublenComponent},
   {path: 'play',component:ChartComponent },
+  {path:'play/:size',component:ChartComponent}
 ];
 
 @NgModule({

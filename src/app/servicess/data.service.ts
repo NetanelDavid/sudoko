@@ -1,4 +1,4 @@
-import {Injectable, ɵSWITCH_IVY_ENABLED__POST_R3__} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,17 @@ export class DataService {
       }
     }
     console.log('new play');
+  }
+
+  setSubLength(subLength:number):boolean{
+    if ( subLength > this.maxSubLength ||subLength<this.minSubLength || !subLength ) {
+      this.subLength=this.defaultSubLength;
+      return false;      
+    }
+    else{
+      this.subLength=subLength;
+      return true;
+    }    
   }
 
   difflength():void{

@@ -17,20 +17,17 @@ export class SublenComponent implements OnInit {
   
   constructor(private dataservice:DataService) {
     this.focus=0;
-    this.maxSubLength=dataservice.maxSubLength;
-    this.minSubLength=dataservice.minSubLength;
   }
   
   ngOnInit(): void {
     document.getElementById(this.focus+'').focus();
   }
   
-  diffLength():void{
-    if(this.subLength > this.dataservice.maxSubLength || this.subLength < this.dataservice.minSubLength || !this.subLength){
-      this.subLength = this.dataservice.defaultSubLength;
+  change():void{
+    const deef = this.dataservice.setSubLength(this.subLength)
+    if(!deef){
+      this.subLength=this.dataservice.defaultSubLength;
     }
-    
-    this.dataservice.subLength=this.subLength;
   }
 
   @HostListener('document:keyup', ['$event'])

@@ -4,15 +4,9 @@
      *ngFor='let b of arr; let j = index'
      [row]='i'
      [col]='j'
-     [solution]='IsSolution'
-     [NewPlay]='IsNewPlay'>
+     [solution]='isSolution'
+     [NewPlay]='isNewPlay'>
     </app-cell>
     <br>
   </ng-container> 
-</div>
-
-<div class="pozisen"  [ngStyle]="{left:40*dataService.length+70+'px'}">
- <p><button #Bsolution id="b0" class='btn btn-success width-button' (click)='solution(Bsolution.id)'>{{TextSolution}}</button></p>
- <p><button #newPly id="b1" class='btn btn-warning width-button' (click)='NewPlay(newPly.id)'>משחק חדש</button></p>
- <p><button id="b2" class='btn btn-danger width-button' [routerLink]='[""]'>שנה גודל</button></p>
 </div>

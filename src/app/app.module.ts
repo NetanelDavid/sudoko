@@ -7,10 +7,12 @@ import { AppComponent } from './components/app/app.component';
 import { CellComponent } from './components/cell/cell.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { SublenComponent } from './components/subLength/subLength.component';
+import { ButtonsSolvingComponent } from './components/buttons-solving/buttons-solving.component';
+import { GameBoardComponent } from './components/game-board/game-board.component';
 
 const routes: Routes =[
   {path: '', component:SublenComponent},
-  {path:'play/:subLength',component:ChartComponent}
+  {path:'solution/:subLength',component:GameBoardComponent}
 ];
 
 @NgModule({
@@ -19,6 +21,8 @@ const routes: Routes =[
     CellComponent,
     ChartComponent,
     SublenComponent,
+    ButtonsSolvingComponent,
+    GameBoardComponent,
   ],
   imports: [
     BrowserModule,

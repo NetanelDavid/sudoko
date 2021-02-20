@@ -1,0 +1,5 @@
+<div class="pozisen"  [ngStyle]="{left:40*dataService.length+70+'px'}">
+    <p><button #bSolution id="b0" class='btn btn-success width-button' (click)='solution(bSolution.id)'>{{TextSolution}}</button></p>
+    <p><button #newPlay id="b1" class='btn btn-warning width-button' (click)='newPlay(newPlay.id)'>משחק חדש</button></p>
+    <p><button id="b2" class='btn btn-danger width-button' [routerLink]='[""]'>שנה גודל</button></p>
+</div>

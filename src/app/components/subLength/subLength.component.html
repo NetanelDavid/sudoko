@@ -7,12 +7,11 @@
   class="input"
   type='number'
   [(ngModel)]='subLength'
-  [max]='maxSubLength'
-  [min]='minSubLength' 
-  (change)='change()'
-  placeholder=3>
+  [max]='dataservice.maxSubLength'
+  [min]='dataservice.minSubLength' 
+  [placeholder]='dataservice.defaultSubLength'>
 
-  <button id=1 class="button btn btn-light " [routerLink]="['play/' ,subLength]" >שחק</button>
+  <button id=1 class="button btn btn-light " [routerLink]="['play' ,subLength]" >שחק</button>
 </div>
 
 

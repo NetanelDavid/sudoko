@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -19,23 +19,25 @@ export class ChartComponent implements OnInit {
   focusB:number;
   typeFocus:string;
  
-  constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute) {
+  constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute ,private router:Router) {
     this.resetFocus();
-    
     this.TextSolution='פתור';
+
+    this.activatedRoute.paramMap.subscribe(
+      prameter => {
+        let subLength = +prameter.get('subLength');
+        if(this.dataService.setSubLength(subLength)){
+          this.dataService.constArrProper();
+          this.arr = new Array(this.dataService.length);
+        } else{
+          this.router.navigate(['play',this.dataService.defaultSubLength]);
+        }
+      }
+    );
     
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(
-      prameter => {
-        const subLength = +prameter.get('size');
-        this.dataService.setSubLength(subLength)
-        this.dataService.difflength();
-        this.arr = new Array(this.dataService.length);
-      }
-    )
-   }
+  ngOnInit(): void { }
 
   solution(id?:string):void{
     this.IsSolution=!this.IsSolution;
@@ -187,8 +189,5 @@ export class ChartComponent implements OnInit {
     this.focusC=-1;
     this.focusB=0;
   }
-
-
-  
 }
           

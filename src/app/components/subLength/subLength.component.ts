@@ -9,13 +9,10 @@ import { DataService, } from 'src/app/servicess/data.service';
 export class SublenComponent implements OnInit {
   
   subLength:number;
-  maxSubLength:number;
-  minSubLength:number;
   focus:number;
-  
   HeightBackground = window.innerHeight;
   
-  constructor(private dataservice:DataService) {
+  constructor(public dataservice:DataService) {
     this.focus=0;
   }
   
@@ -23,12 +20,6 @@ export class SublenComponent implements OnInit {
     document.getElementById(this.focus+'').focus();
   }
   
-  change():void{
-    const deef = this.dataservice.setSubLength(this.subLength)
-    if(!deef){
-      this.subLength=this.dataservice.defaultSubLength;
-    }
-  }
 
   @HostListener('document:keyup', ['$event'])
   KayDown(e:KeyboardEvent):void{
@@ -48,5 +39,4 @@ export class SublenComponent implements OnInit {
     }
     document.getElementById(this.focus+'').focus();
   }
-  
 }

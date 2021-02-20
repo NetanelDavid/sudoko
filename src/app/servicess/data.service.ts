@@ -13,24 +13,10 @@ export class DataService {
   length:number;
   allData:number[][][];
 
-  constructor() {
-    this.subLength=this.defaultSubLength;
-  }
-  
-  NewPlay():void {
-    for (let a=0; a<this.length; a++) {
-      for (let b=0; b<this.length; b++) {
-        for (let c=0; c<this.length+1; c++) {
-          this.allData[a][b][c]= c==0 ? null : c;
-        }
-      }
-    }
-    console.log('new play');
-  }
+  constructor() { }
 
   setSubLength(subLength:number):boolean{
-    if ( subLength > this.maxSubLength ||subLength<this.minSubLength || !subLength ) {
-      this.subLength=this.defaultSubLength;
+    if (subLength > this.maxSubLength || subLength<this.minSubLength || !subLength) {      
       return false;      
     }
     else{
@@ -39,8 +25,7 @@ export class DataService {
     }    
   }
 
-  difflength():void{
-
+  constArrProper():void{
     this.length=Math.pow(this.subLength,2);
     this.allData=new Array(this.length);
     for (let a=0; a<this.length; a++) {
@@ -53,6 +38,17 @@ export class DataService {
       }
     }
     console.log(`length: ${this.length}`);
+  }
+
+  NewPlay():void {
+    for (let a=0; a<this.length; a++) {
+      for (let b=0; b<this.length; b++) {
+        for (let c=0; c<this.length+1; c++) {
+          this.allData[a][b][c]= c==0 ? null : c;
+        }
+      }
+    }
+    console.log('new play');
   }
 
   UserSendNumber(row:number,col:number,value:number):void{

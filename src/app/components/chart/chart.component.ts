@@ -1,5 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CommandsService } from 'src/app/servicess/commands.service';
 import { DataService } from 'src/app/servicess/data.service';
 
@@ -9,17 +10,22 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./chart.component.css']
 })
 
-export class ChartComponent implements OnInit{
+export class ChartComponent implements OnInit ,OnDestroy{
   
   arr:any[];
+  subscription:Subscription;
 
   constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute ,private router:Router,private commandsservice:CommandsService) {
     this.constArrProper();
     this.commands(); 
   }
-  
-  ngOnInit(): void { }
 
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  
   constArrProper():void{
     this.activatedRoute.paramMap.subscribe(
       prameter => {
@@ -35,15 +41,14 @@ export class ChartComponent implements OnInit{
   }
 
   commands():void{
-    this.commandsservice.get().subscribe(
+    this.subscription = this.commandsservice.get().subscribe(
       c => { 
         if(c=='new game'){
           this.newGame();
         }
-    });   
+    });
   }
   
-
   newGame():void{
     this.dataService.newGame();
   }

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { environment } from 'src/app/environments/focus.environments';
 import { CommandsService } from 'src/app/servicess/commands.service';
 import { DataService } from 'src/app/servicess/data.service';
 import { Class } from 'src/app/models/DivClaas.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cell',
@@ -10,7 +11,7 @@ import { Class } from 'src/app/models/DivClaas.model';
   styleUrls: ['./cell.component.css']
 })
 
-export class CellComponent implements OnInit{
+export class CellComponent implements OnInit ,OnDestroy{
 
   @Input()row:number;
   @Input()col:number;
@@ -25,14 +26,24 @@ export class CellComponent implements OnInit{
   length:number;
   subLength:number;
 
+  subscription:Subscription;
+
   constructor(public dataService:DataService,private commandsservice:CommandsService) {
     this.length=dataService.length;
     this.subLength=this.dataService.subLength;
     this.commands();
   }
 
+  ngOnInit(): void {
+    this.UpdateClasses();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   commands():void{
-    this.commandsservice.get().subscribe(
+    this.subscription = this.commandsservice.get().subscribe(
       (c:string) => {
         if(c=='new game'){
           this.newGane();
@@ -48,7 +59,6 @@ export class CellComponent implements OnInit{
   newGane():void{
     this.accepted=false;
     this.classes.accepted=false;
-    this.classes.focus=true;
     this.isSolution=false;
     this.value=null;
     this.full=false;        
@@ -70,10 +80,6 @@ export class CellComponent implements OnInit{
     }
   }
 
-  ngOnInit(): void {
-    this.UpdateClasses();
-  }
-
   UpdateClasses():void{
     this.classes={
       cell:true,
@@ -83,7 +89,6 @@ export class CellComponent implements OnInit{
       bottom: this.row==this.length-1,
       error:false,
       accepted :false,
-      focus:true,
     }
   }
 
@@ -105,7 +110,6 @@ export class CellComponent implements OnInit{
   Accepted():void{
     this.accepted=true;
     this.classes.accepted=true;
-    this.classes.focus=false;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }

@@ -1,6 +1,6 @@
 <div class="background p-3 mb-2 bg-secondary text-white" [style.height]='HeightBackground + "px"'>
 
-  <p class="mx-auto" style="width: 113px;">:בחר גודל קובייה</p>
+  <p class="mx-auto" style="width: 123px;">select sub length:</p>
 
   <input 
   id=0
@@ -10,7 +10,7 @@
   [max]='dataservice.maxSubLength'
   [min]='dataservice.minSubLength' 
   [placeholder]='dataservice.defaultSubLength'>
-  <button id=1 class="button btn btn-light " [routerLink]="['solution' ,subLength]" >שחק</button>
+  <button id=1 class="button btn btn-light " [routerLink]="['solution' ,subLength]" >game</button>
 </div>
 
 

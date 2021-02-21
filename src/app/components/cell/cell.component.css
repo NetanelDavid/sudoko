@@ -36,6 +36,6 @@
     background:rgb(240, 77, 77);
   }
 
-  input.focus:focus{
+  input:focus{
     background:rgb(211, 210, 210);
   }

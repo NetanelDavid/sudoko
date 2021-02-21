@@ -51,6 +51,10 @@ export class DataService {
     console.log('new game');
   }
 
+  testimgValueCell(row:number,col:number,value:number):boolean{
+    return this.allData[row][col][value]==value;
+  }
+
   UserSendNumber(row:number,col:number,value:number):void{
     console.log('user send number:',row,col,value);
     this.NewDiscovery(row,col,value);

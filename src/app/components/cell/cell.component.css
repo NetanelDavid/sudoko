@@ -32,10 +32,10 @@
     color: blue;
   }
 
-  .error{
-    background:rgb(240, 77, 77);
+  input.focus:focus{
+    background:rgb(211, 210, 210);
   }
 
-  input:focus{
-    background:rgb(211, 210, 210);
+  .error{
+    background:rgb(240, 77, 77);
   }

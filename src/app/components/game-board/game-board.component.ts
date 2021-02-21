@@ -22,7 +22,7 @@ export class GameBoardComponent implements OnInit {
   }
     
   @HostListener('document:keyup', ['$event'])
-  KayDown(e:KeyboardEvent):void{
+  keyDown(e:KeyboardEvent):void{
     switch (e.key) {
 
       case 'Up':
@@ -52,7 +52,7 @@ export class GameBoardComponent implements OnInit {
   }
             
   shiftFocus(chang:number):void{
-
+    
     if(chang==0){
       if(environment.typeFocus=='b'){
         environment.typeFocus='c';
@@ -66,10 +66,8 @@ export class GameBoardComponent implements OnInit {
         this.focusing(environment.focusB);
       }
       return;
-    }
-
-    if(environment.typeFocus=='c'){
-
+    } else if(environment.typeFocus=='c'){
+      
       let max=Math.pow(this.dataservice.length,2)-1;
       
       if(environment.focusC==-1 && chang>0){
@@ -89,10 +87,8 @@ export class GameBoardComponent implements OnInit {
       }  else if(environment.focusC > max){
         environment.focusC -= max;
       }
-     this.focusing(environment.focusC);
-    }
-    
-    if(environment.typeFocus=='b'){
+      this.focusing(environment.focusC);
+    } else if(environment.typeFocus=='b'){
       
       let max = 2;
       

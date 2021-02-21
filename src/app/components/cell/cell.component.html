@@ -6,6 +6,7 @@ inputmode="numeric"
 [ngClass]='classes'
 [(ngModel)]='value'
 [readonly]='full'
+(input)='input()'
 (blur)='validation()'
 [id]="'c'+(row*length+col)"
 >

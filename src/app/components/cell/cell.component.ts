@@ -27,6 +27,7 @@ export class CellComponent implements OnInit ,OnDestroy{
   subLength:number;
 
   subscription:Subscription;
+  test:boolean;
 
   constructor(public dataService:DataService,private commandsservice:CommandsService) {
     this.length=dataService.length;
@@ -87,18 +88,40 @@ export class CellComponent implements OnInit ,OnDestroy{
       right: this.col===this.length-1,
       top: this.row%this.subLength===0,
       bottom: this.row==this.length-1,
-      error:false,
       accepted :false,
+      error:false,
+      focus:true,
     }
   }
 
-  validation() {
+  input():void {
+
+    this.test = this.dataService.testimgValueCell(this.row,this.col,this.value);
+
+    if(!this.value) {
+      this.classes.focus=true;
+      this.classes.accepted=false;  
+      this.classes.error=false;
+    } else if(this.test){
+      this.classes.focus=false;
+      this.classes.accepted=true;
+      this.classes.error=false;
+    } else {
+      this.classes.focus=false;
+      this.classes.accepted=false;
+      this.classes.error=true;
+    }
+  }
+
+  validation():void {
 
     if(!this.value || this.accepted || this.isSolution){
       return;
     }
 
-    else if(this.dataService.allData[this.row][this.col][this.value]==this.value){
+    this.classes.focus=true;
+    
+    if(this.test){
       this.Accepted();
     }
 
@@ -109,20 +132,13 @@ export class CellComponent implements OnInit ,OnDestroy{
 
   Accepted():void{
     this.accepted=true;
-    this.classes.accepted=true;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }
 
   Postponed():void {
-
+    this.classes.error=false;
     this.value=null;
-
-    this.classes.error=true;
-
-    setTimeout(() => {
-      this.classes.error=false;  
-    }, 0.125 * 1000);
   }
 
   focusUpdate(id:string):void{

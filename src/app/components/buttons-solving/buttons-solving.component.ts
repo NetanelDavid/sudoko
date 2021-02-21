@@ -2,6 +2,7 @@ import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/servicess/data.service';
 import { environment } from 'src/app/environments/focus.environments'
 import { Router } from '@angular/router';
+import { CommandsService } from 'src/app/servicess/commands.service';
 
 @Component({
   selector: 'app-buttons-solving',
@@ -10,13 +11,10 @@ import { Router } from '@angular/router';
 })
 export class ButtonsSolvingComponent implements OnInit {
 
-  @Output() commandsEvent:EventEmitter<string>;
-
   TextSolution:string;
   isSolution:boolean;
 
-  constructor(public dataService:DataService, private router:Router) { 
-    this.commandsEvent = new EventEmitter<string>();
+  constructor(public dataService:DataService,private commandsservice :CommandsService , private router:Router) { 
     this.TextSolution='solution';
   }
 
@@ -27,7 +25,7 @@ export class ButtonsSolvingComponent implements OnInit {
     if(this.isSolution){
       this.solution();
     }
-    this.commandsEvent.emit('new game');
+    this.commandsservice.set('new game');
     environment.resetFocus();
     document.getElementById(id).blur();
     this.resetCommand();
@@ -36,7 +34,7 @@ export class ButtonsSolvingComponent implements OnInit {
   solution(id?:string):void{
     this.isSolution=!this.isSolution;
     this.TextSolution= this.isSolution? 'hide solution':'solution';
-    this.commandsEvent.emit(this.isSolution?'solution':'hide solution');
+    this.commandsservice.set(this.isSolution?'solution':'hide solution');
     if(id){
       environment.updatingFocus(id);
       this.resetCommand();
@@ -50,7 +48,7 @@ export class ButtonsSolvingComponent implements OnInit {
 
   resetCommand():void{
     setTimeout(() => {
-      this.commandsEvent.emit(undefined);
+      this.commandsservice.set(undefined);
     });
   }
 

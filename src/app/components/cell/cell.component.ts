@@ -1,7 +1,8 @@
-import { Component, Input, OnInit,OnChanges,SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { environment } from 'src/app/environments/focus.environments';
-import { Class } from 'src/app/models/DivClaas.model';
+import { CommandsService } from 'src/app/servicess/commands.service';
 import { DataService } from 'src/app/servicess/data.service';
+import { Class } from 'src/app/models/DivClaas.model';
 
 @Component({
   selector: 'app-cell',
@@ -9,61 +10,86 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./cell.component.css']
 })
 
-export class CellComponent implements OnInit ,OnChanges{
+export class CellComponent implements OnInit{
 
   @Input()row:number;
   @Input()col:number;
-  
-  @Input() solution:boolean;
-  @Input() NewPlay:boolean;
+
+  isSolution:boolean;
 
   value:number; 
   full:boolean;
   accepted:boolean;
 
-  DivClasses:Class;
+  classes:Class;
   length:number;
   subLength:number;
 
-  constructor(public dataService:DataService) {
+  constructor(public dataService:DataService,private commandsservice:CommandsService) {
     this.length=dataService.length;
     this.subLength=this.dataService.subLength;
+    this.commands();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  commands():void{
+    this.commandsservice.get().subscribe(
+      (c:string) => {
+        if(c=='new game'){
+          this.newGane();
+        } else if (c=='solution'){
+          this.solution();
+        } else if(c=='hide solution'){
+          this.hideSolution();
+        }
+      }
+    );
+  }
 
-    if(changes.NewPlay && changes.NewPlay.currentValue){
-      this.accepted=false;
-      this.DivClasses.accepted=false;
-      this.DivClasses.focus=true;
-      this.solution=false;
-      this.value=null;
-      this.full=false;
-    }
+  newGane():void{
+    this.accepted=false;
+    this.classes.accepted=false;
+    this.classes.focus=true;
+    this.isSolution=false;
+    this.value=null;
+    this.full=false;        
+  }
 
-    else if (changes.solution && changes.solution.currentValue && !this.accepted) {
+  solution():void{
+    this.isSolution=true;
+    if (!this.accepted) {
       this.value=this.dataService.allData[this.row][this.col][0];
       this.full=true;
-      this.DivClasses.focus=false;
     }
+  }
 
-    else  if (changes.solution && !changes.solution.currentValue && !this.accepted) {
+  hideSolution():void{
+    this.isSolution=false;
+    if (!this.accepted) {
       this.value=null;
       this.full=false;
-      if(this.DivClasses){
-        this.DivClasses.focus=true;
-      }
     }
-
   }
 
   ngOnInit(): void {
     this.UpdateClasses();
   }
 
+  UpdateClasses():void{
+    this.classes={
+      cell:true,
+      left: this.col%this.subLength===0,
+      right: this.col===this.length-1,
+      top: this.row%this.subLength===0,
+      bottom: this.row==this.length-1,
+      error:false,
+      accepted :false,
+      focus:true,
+    }
+  }
+
   validation() {
 
-    if(this.value==undefined || this.accepted || this.solution){
+    if(!this.value || this.accepted || this.isSolution){
       return;
     }
 
@@ -78,33 +104,21 @@ export class CellComponent implements OnInit ,OnChanges{
 
   Accepted():void{
     this.accepted=true;
-    this.DivClasses.accepted=true;
-    this.DivClasses.focus=false;
+    this.classes.accepted=true;
+    this.classes.focus=false;
     this.full=true;
     this.dataService.UserSendNumber(this.row,this.col,this.value);
   }
 
   Postponed():void {
+
     this.value=null;
 
-    this.DivClasses.error=true;
+    this.classes.error=true;
 
     setTimeout(() => {
-      this.DivClasses.error=false;  
-   }, 0.125 * 1000);
-  }
-
-  UpdateClasses():void{
-    this.DivClasses={
-      cell:true,
-      left: this.col%this.subLength===0,
-      right: this.col===this.length-1,
-      top: this.row%this.subLength===0,
-      bottom: this.row==this.length-1,
-      error:false,
-      accepted :false,
-      focus:true,
-    }
+      this.classes.error=false;  
+    }, 0.125 * 1000);
   }
 
   focusUpdate(id:string):void{

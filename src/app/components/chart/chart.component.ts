@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommandsService } from 'src/app/servicess/commands.service';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -8,16 +9,18 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./chart.component.css']
 })
 
-export class ChartComponent implements OnInit,OnChanges {
-
-  @Input() commands:string;
+export class ChartComponent implements OnInit{
   
   arr:any[];
-  isSolution:boolean; 
-  isNewPlay:boolean;
 
-  constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute ,private router:Router) {
+  constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute ,private router:Router,private commandsservice:CommandsService) {
+    this.constArrProper();
+    this.commands(); 
+  }
+  
+  ngOnInit(): void { }
 
+  constArrProper():void{
     this.activatedRoute.paramMap.subscribe(
       prameter => {
         let subLength = +prameter.get('subLength');
@@ -29,40 +32,20 @@ export class ChartComponent implements OnInit,OnChanges {
         }
       }
     );
-    
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    switch (changes.commands.currentValue) {
-
-      case 'new game': 
-        this.newGame();
-      break;
-
-      case 'solution' :
-      case 'hide solution':
-        this.solution(changes.commands.currentValue);
-      break;
-    }
   }
 
-  ngOnInit(): void { }
-
-  solution(isSolution:string):void{
-    if(isSolution=='solution'){
-      this.isSolution=true;
-    } else {
-      this.isSolution=false;
-    }
+  commands():void{
+    this.commandsservice.get().subscribe(
+      c => { 
+        if(c=='new game'){
+          this.newGame();
+        }
+    });   
   }
+  
 
   newGame():void{
-
     this.dataService.newGame();
-
-    this.isNewPlay=true;
-    setTimeout(() => {
-      this.isNewPlay=false;
-    });
   }
 
 }

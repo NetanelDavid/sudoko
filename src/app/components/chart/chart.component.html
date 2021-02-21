@@ -1,6 +1,6 @@
 <div class="margin" [ngStyle]='{width:40*dataService.length+"px"}'>
   <ng-container *ngFor="let a of arr; let i = index">
-    <app-cell (focus)='clickFocus($event)'
+    <app-cell
      *ngFor='let b of arr; let j = index'
      [row]='i'
      [col]='j'

@@ -1,5 +1,7 @@
 import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/servicess/data.service';
+import { environment } from 'src/app/environments/focus.environments'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buttons-solving',
@@ -9,30 +11,47 @@ import { DataService } from 'src/app/servicess/data.service';
 export class ButtonsSolvingComponent implements OnInit {
 
   @Output() commandsEvent:EventEmitter<string>;
-  @Output() focusEvent:EventEmitter<string>;
 
   TextSolution:string;
   isSolution:boolean;
 
-  constructor(public dataService:DataService) { 
+  constructor(public dataService:DataService, private router:Router) { 
     this.commandsEvent = new EventEmitter<string>();
-    this.focusEvent = new EventEmitter<string>();
-    this.TextSolution='פתור';
+    this.TextSolution='solution';
   }
 
   ngOnInit(): void {
   }
 
-  newPlay(id:string):void{
-    this.commandsEvent.emit('new play');
-    this.focusEvent.emit(id);
+  newGame(id:string):void{
+    if(this.isSolution){
+      this.solution();
+    }
+    this.commandsEvent.emit('new game');
+    environment.resetFocus();
+    document.getElementById(id).blur();
+    this.resetCommand();
   }
   
-  solution(id:string):void{
+  solution(id?:string):void{
     this.isSolution=!this.isSolution;
-    this.TextSolution=this.TextSolution=='פתור'?'הסתר פתרון':'פתור';
+    this.TextSolution= this.isSolution? 'hide solution':'solution';
     this.commandsEvent.emit(this.isSolution?'solution':'hide solution');
-    this.focusEvent.emit(id);
+    if(id){
+      environment.updatingFocus(id);
+      this.resetCommand();
+    }
+  }
+
+  setLength():void{
+    environment.resetFocus();
+    this.router.navigate(['']);
+  }
+
+  resetCommand():void{
+    setTimeout(() => {
+      this.commandsEvent.emit(undefined);
+    });
   }
 
 }

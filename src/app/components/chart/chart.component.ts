@@ -16,8 +16,6 @@ export class ChartComponent implements OnInit,OnChanges {
   isSolution:boolean; 
   isNewPlay:boolean;
 
-
- 
   constructor(public dataService :DataService ,  private activatedRoute: ActivatedRoute ,private router:Router) {
 
     this.activatedRoute.paramMap.subscribe(
@@ -36,34 +34,35 @@ export class ChartComponent implements OnInit,OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     switch (changes.commands.currentValue) {
 
-      case 'new play': 
-        this.NewPlay();
+      case 'new game': 
+        this.newGame();
       break;
 
       case 'solution' :
       case 'hide solution':
-        this.solution();
+        this.solution(changes.commands.currentValue);
       break;
     }
   }
 
   ngOnInit(): void { }
 
-  solution():void{
-    this.isSolution=!this.isSolution;
+  solution(isSolution:string):void{
+    if(isSolution=='solution'){
+      this.isSolution=true;
+    } else {
+      this.isSolution=false;
+    }
   }
 
-  NewPlay():void{
+  newGame():void{
+
+    this.dataService.newGame();
 
     this.isNewPlay=true;
     setTimeout(() => {
       this.isNewPlay=false;
     });
-
-    if(this.isSolution){
-      this.solution();
-    }
   }
 
 }
-          

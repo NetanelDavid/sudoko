@@ -1,4 +1,5 @@
-import { Component, Input, OnInit,OnChanges, Output ,EventEmitter, SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit,OnChanges,SimpleChanges} from '@angular/core';
+import { environment } from 'src/app/environments/focus.environments';
 import { Class } from 'src/app/models/DivClaas.model';
 import { DataService } from 'src/app/servicess/data.service';
 
@@ -9,8 +10,6 @@ import { DataService } from 'src/app/servicess/data.service';
 })
 
 export class CellComponent implements OnInit ,OnChanges{
-
-  @Output() focus:EventEmitter<string>;
 
   @Input()row:number;
   @Input()col:number;
@@ -27,7 +26,6 @@ export class CellComponent implements OnInit ,OnChanges{
   subLength:number;
 
   constructor(public dataService:DataService) {
-    this.focus = new EventEmitter();
     this.length=dataService.length;
     this.subLength=this.dataService.subLength;
   }
@@ -96,7 +94,6 @@ export class CellComponent implements OnInit ,OnChanges{
    }, 0.125 * 1000);
   }
 
-
   UpdateClasses():void{
     this.DivClasses={
       cell:true,
@@ -110,8 +107,8 @@ export class CellComponent implements OnInit ,OnChanges{
     }
   }
 
-  focusUpdate(f:string):void{
-    this.focus.emit(f);
+  focusUpdate(id:string):void{
+    environment.updatingFocus(id);
   }
 
 }

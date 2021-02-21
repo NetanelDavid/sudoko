@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { environment } from 'src/app/environments/focus.environments';
 import { DataService } from 'src/app/servicess/data.service';
 
 @Component({
@@ -9,11 +10,7 @@ import { DataService } from 'src/app/servicess/data.service';
 export class GameBoardComponent implements OnInit {
 
   commands:string;
-  
-  focusC:number;
-  focusB:number;
-  typeFocus:string;
-  
+    
   constructor(private dataservice:DataService) {
     this.resetFocus();
   }
@@ -21,25 +18,9 @@ export class GameBoardComponent implements OnInit {
   ngOnInit(): void {}
 
   commandsEvent(command:string):void{
-  this.commands=command;
-    switch (command) {
-      case 'new play':
-        this.newPlay();
-        break;
-      }
-    }
-
-    focusEvent(id:string):void{
-      document.getElementById(id).blur();
-    }
+    this.commands=command;
+  }
     
-    newPlay():void{
-      this.dataservice.NewPlay();
-      setTimeout(() => {
-        this.resetFocus();
-      }, 95);
-    }
-
   @HostListener('document:keyup', ['$event'])
   KayDown(e:KeyboardEvent):void{
     switch (e.key) {
@@ -73,82 +54,68 @@ export class GameBoardComponent implements OnInit {
   shiftFocus(chang:number):void{
 
     if(chang==0){
-      if(this.typeFocus=='b'){
-        this.typeFocus='c';
-        if(this.focusC==-1){
-          this.focusC++;
+      if(environment.typeFocus=='b'){
+        environment.typeFocus='c';
+        if(environment.focusC==-1){
+          environment.focusC++;
         }
-        this.focusing(this.focusC);
+        this.focusing(environment.focusC);
       } else {
-        this.typeFocus='b';
-        this.focusB=0;
-        this.focusing(this.focusB);
+        environment.typeFocus='b';
+        environment.focusB=0;
+        this.focusing(environment.focusB);
       }
       return;
     }
 
-    if(this.typeFocus=='c'){
+    if(environment.typeFocus=='c'){
 
       let max=Math.pow(this.dataservice.length,2)-1;
       
-      if(this.focusC==-1 && chang>0){
-        this.focusC=0;
-      } else if (this.focusC==-1 && chang<0) {
-        this.focusC=max;      
-      } else if(this.focusC==max && chang>0 ){
-        this.focusC=0;
-      } else if(this.focusC==0 && chang<0 ){
-        this.focusC=max;
+      if(environment.focusC==-1 && chang>0){
+        environment.focusC=0;
+      } else if (environment.focusC==-1 && chang<0) {
+        environment.focusC=max;      
+      } else if(environment.focusC==max && chang>0 ){
+        environment.focusC=0;
+      } else if(environment.focusC==0 && chang<0 ){
+        environment.focusC=max;
       } else{
-        this.focusC+=chang;
+        environment.focusC+=chang;
       }
       
-      if(this.focusC<0){
-        this.focusC += max;
-      }  else if(this.focusC > max){
-        this.focusC -= max;
+      if(environment.focusC<0){
+        environment.focusC += max;
+      }  else if(environment.focusC > max){
+        environment.focusC -= max;
       }
-     this.focusing(this.focusC);
+     this.focusing(environment.focusC);
     }
     
-    if(this.typeFocus=='b'){
+    if(environment.typeFocus=='b'){
       
       let max = 2;
       
       if (chang>0) {
-        this.focusB++;
+        environment.focusB++;
       } else if(chang<0){
-        this.focusB--;
+        environment.focusB--;
       }
       
-      if(this.focusB>max){
-        this.focusB = 0;
-      } else if(this.focusB<0){
-        this.focusB=max;
+      if(environment.focusB>max){
+        environment.focusB = 0;
+      } else if(environment.focusB<0){
+        environment.focusB=max;
       }
-      this.focusing(this.focusB);
+      this.focusing(environment.focusB);
     }
   }
 
   focusing(i:number){
-    document.getElementById(this.typeFocus+i).focus();
-  }  
-
-  clickFocus(id:string):void{
-
-    this.typeFocus=id.substring(0,1);
-
-    if(this.typeFocus=='c'){
-      this.focusC=parseInt(id.substring(1));
-    } else if(this.typeFocus=='b'){
-      this.focusB=parseInt(id.substring(1));
-    }
-  }
+    document.getElementById(environment.typeFocus+i).focus();
+  } 
 
   resetFocus():void{
-    this.typeFocus='c';
-    this.focusC=-1;
-    this.focusB=0;
+    environment.resetFocus();
   }
-
 }

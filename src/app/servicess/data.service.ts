@@ -40,7 +40,7 @@ export class DataService {
     console.log(`length: ${this.length}`);
   }
 
-  NewPlay():void {
+  newGame():void {
     for (let a=0; a<this.length; a++) {
       for (let b=0; b<this.length; b++) {
         for (let c=0; c<this.length+1; c++) {
@@ -48,7 +48,7 @@ export class DataService {
         }
       }
     }
-    console.log('new play');
+    console.log('new game');
   }
 
   UserSendNumber(row:number,col:number,value:number):void{

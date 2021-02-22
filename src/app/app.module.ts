@@ -9,6 +9,7 @@ import { ChartComponent } from './components/chart/chart.component'
 import { ButtonsSolvingComponent } from './components/buttons-solving/buttons-solving.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
 import { ElectionsComponent } from './components/elections/elections.component';
+import { ButtonsPuzzleComponent } from './components/buttons-puzzle/buttons-puzzle.component';
 
 const routes: Routes =[
   {path: '', component:ElectionsComponent},
@@ -24,6 +25,7 @@ const routes: Routes =[
     ButtonsSolvingComponent,
     GameBoardComponent,
     ElectionsComponent,
+    ButtonsPuzzleComponent,
   ],
   imports: [
     BrowserModule,

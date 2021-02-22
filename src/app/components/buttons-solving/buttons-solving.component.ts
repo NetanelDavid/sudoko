@@ -26,9 +26,8 @@ export class ButtonsSolvingComponent implements OnInit {
       this.solution();
     }
     this.commandsservice.set('new game');
-    environment.resetFocus();
     document.getElementById(id).blur();
-    this.resetCommand();
+    environment.resetFocus();
   }
   
   solution(id?:string):void{
@@ -37,19 +36,12 @@ export class ButtonsSolvingComponent implements OnInit {
     this.commandsservice.set(this.isSolution?'solution':'hide solution');
     if(id){
       environment.updatingFocus(id);
-      this.resetCommand();
     }
   }
 
   move():void{
     environment.resetFocus();
     this.router.navigate(['elections']);
-  }
-
-  resetCommand():void{
-    setTimeout(() => {
-      this.commandsservice.set(undefined);
-    });
   }
 
 }

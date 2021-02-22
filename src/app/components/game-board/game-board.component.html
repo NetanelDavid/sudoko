@@ -1,2 +1,7 @@
-<app-chart></app-chart>
-<app-buttons-solving *ngIf="typeGame=='solution'"></app-buttons-solving>
+<div class="row">
+    <app-chart></app-chart>
+    <div class="margin">
+        <app-buttons-solving *ngIf="typeGame=='solution'"></app-buttons-solving>
+        <app-buttons-puzzle *ngIf="typeGame=='puzzle'"></app-buttons-puzzle>
+    </div>
+</div>

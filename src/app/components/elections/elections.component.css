@@ -1,22 +1,14 @@
-.background{
-	width: 100%;
-    align-self: center;
-    word-wrap: break-word;
+.input{
+	width: 70px;
+	height: 70px;
 }
 
-.input{
-    text-align:center;
-	width:70px;
-	height:70px;
+.size-text{
+	font-size:30px;
 }
 
 .button{
-    position:absolute;
-	left:50%;
-	top:180px;
-	width:250px;
-	height:40px;
-	margin:0 0 0 -100px;
+	width: 250px;
 }
 
 input[type=number]:focus{

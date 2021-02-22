@@ -11,6 +11,7 @@ export class ElectionsComponent implements OnInit {
   
   subLength:number;
   typeGame:string;
+  difficulty:string;
   focus:number;
   HeightBackground = window.innerHeight;
   
@@ -24,7 +25,7 @@ export class ElectionsComponent implements OnInit {
 
   move():void{
     this.router.navigate([this.typeGame,this.subLength+'']);
-  }  
+  }
 
   @HostListener('document:keyup', ['$event'])
   KayDown(e:KeyboardEvent):void{

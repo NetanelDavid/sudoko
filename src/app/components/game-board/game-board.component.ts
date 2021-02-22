@@ -8,20 +8,14 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
-
-  commands:string;
     
   constructor(private dataservice:DataService) {
-    this.resetFocus();
+    environment.resetFocus();
   }
   
   ngOnInit(): void {}
-
-  commandsEvent(command:string):void{
-    this.commands=command;
-  }
     
-  @HostListener('document:keyup', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   keyDown(e:KeyboardEvent):void{
     switch (e.key) {
 
@@ -110,8 +104,4 @@ export class GameBoardComponent implements OnInit {
   focusing(i:number){
     document.getElementById(environment.typeFocus+i).focus();
   } 
-
-  resetFocus():void{
-    environment.resetFocus();
-  }
 }

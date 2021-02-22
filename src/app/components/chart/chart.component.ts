@@ -30,11 +30,12 @@ export class ChartComponent implements OnInit ,OnDestroy{
     this.activatedRoute.paramMap.subscribe(
       prameter => {
         let subLength = +prameter.get('subLength');
+        let typeGame = prameter.get('typegame');
         if(this.dataService.setSubLength(subLength)){
           this.dataService.constArrProper();
           this.arr = new Array(this.dataService.length);
         } else{
-          this.router.navigate(['solution',this.dataService.defaultSubLength]);
+          this.router.navigate([typeGame,this.dataService.defaultSubLength]);
         }
       }
     );

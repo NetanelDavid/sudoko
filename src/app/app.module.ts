@@ -5,14 +5,15 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './components/app/app.component';
 import { CellComponent } from './components/cell/cell.component';
-import { ChartComponent } from './components/chart/chart.component';
-import { SublenComponent } from './components/subLength/subLength.component';
+import { ChartComponent } from './components/chart/chart.component'
 import { ButtonsSolvingComponent } from './components/buttons-solving/buttons-solving.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
+import { ElectionsComponent } from './components/elections/elections.component';
 
 const routes: Routes =[
-  {path: '', component:SublenComponent},
-  {path:'solution/:subLength',component:GameBoardComponent}
+  {path: '', component:ElectionsComponent},
+  {path: 'elections', component:ElectionsComponent},
+  {path:':typegame/:subLength',component:GameBoardComponent}
 ];
 
 @NgModule({
@@ -20,9 +21,9 @@ const routes: Routes =[
     AppComponent,
     CellComponent,
     ChartComponent,
-    SublenComponent,
     ButtonsSolvingComponent,
     GameBoardComponent,
+    ElectionsComponent,
   ],
   imports: [
     BrowserModule,

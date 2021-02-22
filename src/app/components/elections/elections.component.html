@@ -1,0 +1,29 @@
+<div class="background p-3 mb-2 bg-secondary text-white" [style.height]='HeightBackground + "px"'>
+    <div class="row">
+
+        <div class="col-6 text-left"  >
+            <p class="mx-auto" style="width: 125px;">select type game:</p>
+            <div class="form-check" >
+                <input #s class="form-check-input" type="radio" name="typeGame" id="11" (input)='selectType(s.value)' value="solution">
+                <label class="form-check-label" for="11">solution</label>
+            </div>
+            <div class="form-check">
+                <input #p class="form-check-input" type="radio" name="typeGame"  id="12" (input)='selectType(p.value)' value="puzzle">
+                <label class="form-check-label" for="12">puzzle</label>
+            </div>
+        </div>
+        
+        <div class="col-6 text-center">
+            <p class="mx-auto" style="width: 123px;">select sub length:</p>
+            <input 
+            id=2
+            class="input"
+            type='number'
+            [(ngModel)]='subLength'
+            [max]='dataservice.maxSubLength'
+            [min]='dataservice.minSubLength' 
+            [placeholder]='dataservice.defaultSubLength'>
+        </div> 
+    </div>
+    <button id=3 class="button btn btn-light " (click)='move()' [disabled]='!typeGame' >game</button>
+</div>

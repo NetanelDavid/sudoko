@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/app/environments/focus.environments';
 import { DataService } from 'src/app/servicess/data.service';
 
@@ -8,12 +10,25 @@ import { DataService } from 'src/app/servicess/data.service';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
-    
-  constructor(private dataservice:DataService) {
+  
+  subscription:Subscription;
+  typeGame:string;
+
+  constructor(private dataservice:DataService,private activatedroute:ActivatedRoute) {
+    this.selectButtoms();
     environment.resetFocus();
   }
   
   ngOnInit(): void {}
+
+  selectButtoms():void{
+    this.subscription=this.activatedroute.paramMap.subscribe(
+      parameter => {
+        this.typeGame = parameter.get('typegame');
+      }
+    );
+    this.subscription.unsubscribe();
+  }
     
   @HostListener('document:keydown', ['$event'])
   keyDown(e:KeyboardEvent):void{

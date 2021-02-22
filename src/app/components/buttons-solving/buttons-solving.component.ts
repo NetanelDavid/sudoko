@@ -41,9 +41,9 @@ export class ButtonsSolvingComponent implements OnInit {
     }
   }
 
-  setLength():void{
+  move():void{
     environment.resetFocus();
-    this.router.navigate(['']);
+    this.router.navigate(['elections']);
   }
 
   resetCommand():void{

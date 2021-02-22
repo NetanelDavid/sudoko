@@ -97,6 +97,7 @@ export class CellComponent implements OnInit ,OnDestroy{
   input():void {
 
     this.test = this.dataService.testimgValueCell(this.row,this.col,this.value);
+    this.value = +this.value;
 
     if(!this.value) {
       this.classes.focus=true;

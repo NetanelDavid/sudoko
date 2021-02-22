@@ -9,8 +9,9 @@
   [(ngModel)]='subLength'
   [max]='dataservice.maxSubLength'
   [min]='dataservice.minSubLength' 
-  [placeholder]='dataservice.defaultSubLength'>
-  <button id=1 class="button btn btn-light " [routerLink]="['solution' ,subLength]" >game</button>
+  [placeholder]='dataservice.defaultSubLength'
+  (keydown)="move($event)">
+  <button id=1 class="button btn btn-light " (click)='move()' >game</button>
 </div>
 
 

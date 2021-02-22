@@ -1,4 +1,5 @@
-import { Component, OnInit, Output ,EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService, } from 'src/app/servicess/data.service';
 
 @Component({
@@ -12,14 +13,19 @@ export class SublenComponent implements OnInit {
   focus:number;
   HeightBackground = window.innerHeight;
   
-  constructor(public dataservice:DataService) {
+  constructor(public dataservice:DataService,private router :Router) {
     this.focus=0;
   }
   
   ngOnInit(): void {
     document.getElementById(this.focus+'').focus();
   }
-  
+
+  move(e?:KeyboardEvent):void{
+    if(!e || e.key=='Enter'){
+      this.router.navigate(['/solution',this.subLength+'']);
+    }
+  }  
 
   @HostListener('document:keyup', ['$event'])
   KayDown(e:KeyboardEvent):void{

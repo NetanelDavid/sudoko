@@ -133,7 +133,9 @@ export class CellComponent implements OnInit ,OnDestroy{
   Accepted():void{
     this.accepted=true;
     this.full=true;
-    this.dataService.UserSendNumber(this.row,this.col,this.value);
+    if(!this.dataService.allData[this.row][this.col][0]){
+      this.dataService.UserSendNumber(this.row,this.col,this.value);
+    }
   }
 
   Postponed():void {

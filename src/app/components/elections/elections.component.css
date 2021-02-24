@@ -8,7 +8,7 @@
 }
 
 .button{
-	width: 250px;
+	width: 400px;
 }
 
 input[type=number]:focus{
@@ -17,4 +17,9 @@ input[type=number]:focus{
 
 input[type=number]::-webkit-inner-spin-button{ 
     -webkit-appearance:none;  
+}
+
+.width-button{
+    width:95px;
+    height:95px;
 }

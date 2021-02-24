@@ -10,6 +10,7 @@ import { ButtonsSolvingComponent } from './components/buttons-solving/buttons-so
 import { GameBoardComponent } from './components/game-board/game-board.component';
 import { ElectionsComponent } from './components/elections/elections.component';
 import { ButtonsPuzzleComponent } from './components/buttons-puzzle/buttons-puzzle.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes =[
   {path: '', component:ElectionsComponent},
@@ -30,7 +31,8 @@ const routes: Routes =[
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,6 +11,7 @@ export class ElectionsComponent implements OnInit {
   
   subLength:number;
   typeGame:string;
+  level:string;
   difficulty:string;
   focus:number;
   HeightBackground = window.innerHeight;
@@ -50,8 +51,12 @@ export class ElectionsComponent implements OnInit {
     }
   }
 
-  selectType(v:string):void{
+  setType(v:string):void{
     this.typeGame=v;
+  }
+
+  setLevel(v:string):void{
+    this.level=v;
   }
 
 }

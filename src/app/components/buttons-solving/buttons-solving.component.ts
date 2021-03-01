@@ -25,7 +25,7 @@ export class ButtonsSolvingComponent implements OnInit {
     if(this.isSolution){
       this.solution();
     }
-    this.commandsservice.set('new game');
+    this.commandsservice.set('commands','new game');
     document.getElementById(id).blur();
     environment.resetFocus();
   }
@@ -33,7 +33,7 @@ export class ButtonsSolvingComponent implements OnInit {
   solution(id?:string):void{
     this.isSolution=!this.isSolution;
     this.TextSolution= this.isSolution? 'hide solution':'solution';
-    this.commandsservice.set(this.isSolution?'solution':'hide solution');
+    this.commandsservice.set('commands',this.isSolution?'solution':'hide solution');
     if(id){
       environment.updatingFocus(id);
     }

@@ -15,7 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const routes: Routes =[
   {path: '', component:ElectionsComponent},
   {path: 'elections', component:ElectionsComponent},
-  {path:':typegame/:subLength',component:GameBoardComponent}
+  {path:':typeGame/:subLength',component:GameBoardComponent}
 ];
 
 @NgModule({

@@ -30,7 +30,7 @@ export class ChartComponent implements OnInit ,OnDestroy{
     this.activatedRoute.paramMap.subscribe(
       prameter => {
         let subLength = +prameter.get('subLength');
-        let typeGame = prameter.get('typegame');
+        let typeGame = prameter.get('typeGame');
         if(this.dataService.setSubLength(subLength)){
           this.dataService.constArrProper();
           this.arr = new Array(this.dataService.length);
@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit ,OnDestroy{
   }
 
   commands():void{
-    this.subscription = this.commandsservice.get().subscribe(
+    this.subscription = this.commandsservice.get('commands').subscribe(
       c => { 
         if(c=='new game'){
           this.newGame();

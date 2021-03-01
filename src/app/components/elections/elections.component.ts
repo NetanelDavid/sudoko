@@ -12,20 +12,21 @@ export class ElectionsComponent implements OnInit {
   subLength:number;
   typeGame:string;
   level:string;
-  difficulty:string;
+  disabledB:boolean;
+
   focus:number;
   HeightBackground = window.innerHeight;
   
   constructor(public dataservice:DataService,private router :Router) {
-    this.focus=1;
+    this.focus=-1;
   }
   
   ngOnInit(): void {
-    document.getElementById(this.focus+'1').focus();
+    document.getElementById(this.focus+1+'').focus();
   }
 
   move():void{
-    this.router.navigate([this.typeGame,this.subLength+'']);
+    this.router.navigate([this.typeGame+'',this.subLength+'']);
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -38,25 +39,61 @@ export class ElectionsComponent implements OnInit {
   }
 
   focusing():void{
-    this.focus++;
-    let max = this.typeGame ? 3 : 2 ;
-    if(this.focus>max){
-      this.focus =1;
+    
+    let max = this.typeGame=='puzzle' ? 5 : 2 ;
+    let button = 6 ;
+    this.disabledB = !this.typeGame || (this.typeGame=="puzzle" && !this.level);
+
+    if(this.focus==button){
+      this.focus=0;
+    } else {
+
+      this.focus++;
+
+      if(this.focus>max){
+        if(this.disabledB){
+          this.focus = 0;
+        } else {
+          this.focus = button;
+        }
+      }
     }
-    if(this.focus==1){
-      document.getElementById(this.focus+(this.typeGame=='solution'?'2':'1')).focus();
-    }
-    else{
-      document.getElementById(this.focus+'').focus();
-    }
+    document.getElementById(this.focus+'').focus();
   }
 
   setType(v:string):void{
     this.typeGame=v;
+
+    if(this.typeGame=="solving"){
+      this.level = null;
+      this.focus=1;
+    } else {
+      this.focus=2;
+    }
+    this.isDisabledB();
   }
 
   setLevel(v:string):void{
     this.level=v;
+    switch(v){
+      case 'easy':this.focus=3;
+      break;
+
+      case 'medium':this.focus=4;
+      break;
+
+      case 'hard':this.focus=5;
+      break;
+    }
+    this.isDisabledB();
+  }
+
+  focusInput():void{
+    this.focus = 0;
+  }
+
+  isDisabledB():void{
+    this.disabledB = !this.typeGame || (this.typeGame=="puzzle" && !this.level);
   }
 
 }

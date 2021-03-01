@@ -44,10 +44,10 @@ export class CellComponent implements OnInit ,OnDestroy{
   }
 
   commands():void{
-    this.subscription = this.commandsservice.get().subscribe(
+    this.subscription = this.commandsservice.get("commands").subscribe(
       (c:string) => {
         if(c=='new game'){
-          this.newGane();
+          this.newGame();
         } else if (c=='solution'){
           this.solution();
         } else if(c=='hide solution'){
@@ -57,7 +57,7 @@ export class CellComponent implements OnInit ,OnDestroy{
     );
   }
 
-  newGane():void{
+  newGame():void{
     this.accepted=false;
     this.classes.accepted=false;
     this.isSolution=false;
@@ -96,10 +96,9 @@ export class CellComponent implements OnInit ,OnDestroy{
 
   input():void {
 
-    this.test = this.dataService.testimgValueCell(this.row,this.col,this.value);
-    this.value = +this.value;
+    this.test = this.dataService.testimgValueCell(this.row,this.col,+this.value);
 
-    if(!this.value) {
+    if(!this.value){
       this.classes.focus=true;
       this.classes.accepted=false;  
       this.classes.error=false;
@@ -135,7 +134,7 @@ export class CellComponent implements OnInit ,OnDestroy{
     this.accepted=true;
     this.full=true;
     if(!this.dataService.allData[this.row][this.col][0]){
-      this.dataService.UserSendNumber(this.row,this.col,this.value);
+      this.dataService.UserSendNumber(this.row,this.col,+this.value);
     }
   }
 

@@ -17,7 +17,7 @@ export class DataService {
 
   setSubLength(subLength:number):boolean{
     if (subLength > this.maxSubLength || subLength<this.minSubLength || !subLength) {      
-      return false;      
+      return false;
     }
     else{
       this.subLength=subLength;
@@ -127,7 +127,7 @@ export class DataService {
   }
 
   private OneCellOption(row:number,col:number):void{
-    if( this.allData[row][col][0]>0){
+    if(this.allData[row][col][0]){
       return;
     }
 

@@ -16,7 +16,7 @@ export class ButtonsPuzzleComponent implements OnInit {
   }
 
   newGame(id:string):void{
-    this.commandsservice.set('new game');
+    this.commandsservice.set('commands','new game');
     document.getElementById(id).blur();
     environment.resetFocus();
   }

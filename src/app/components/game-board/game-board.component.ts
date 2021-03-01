@@ -24,7 +24,7 @@ export class GameBoardComponent implements OnInit {
   selectButtoms():void{
     this.subscription=this.activatedroute.paramMap.subscribe(
       parameter => {
-        this.typeGame = parameter.get('typegame');
+        this.typeGame = parameter.get('typeGame');
       }
     );
     this.subscription.unsubscribe();

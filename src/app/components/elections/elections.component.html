@@ -3,22 +3,23 @@
         <div class="col-12 text-center">
             <h2><p>select sub length:</p></h2>
             <input 
-            id=2
+            id=0
             class="input text-center"
             type='number'
             [(ngModel)]='subLength'
             [max]='dataservice.maxSubLength'
             [min]='dataservice.minSubLength' 
-            [placeholder]='dataservice.defaultSubLength'>  
+            [placeholder]='dataservice.defaultSubLength'
+            (click)='focusInput()'>  
             <br>
             <h2><p>select type game:</p></h2>
             <div class="row">
                 <div class="col-5"></div>
                 <div class="col-1">
-                    <button #s id='solving' (click)="setType(s.id)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success': typeGame!=s.id, 'btn-success':typeGame==s.id }">solving</button>
+                    <button #s name="solving" id='1' (click)="setType(s.name)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success': typeGame!=s.name, 'btn-success':typeGame==s.name }">solving</button>
                 </div>
                 <div class="col-1">
-                    <button #p id='puzzle' (click)="setType(p.id)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':typeGame!=p.id, 'btn-success':typeGame==p.id}">puzzle</button>
+                    <button #p name="puzzle" id='2' (click)="setType(p.name)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':typeGame!=p.name, 'btn-success':typeGame==p.name}">puzzle</button>
                 </div>
             </div>  
             <br>
@@ -28,18 +29,18 @@
                 <div  class="row">
                     <div class="col-3"></div>
                     <div class="col-2">
-                        <button #e id='easy' (click)="setLevel(e.id)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success': level!=e.id, 'btn-success':level==e.id }">{{e.id}}</button>
+                        <button #e name="easy" id='3' (click)="setLevel(e.name)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success': level!=e.name, 'btn-success':level==e.name }">{{e.name}}</button>
                     </div>
                     <div class="col-2">
-                        <button #m id='medium' (click)="setLevel(m.id)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':level!=m.id, 'btn-success':level==m.id}">{{m.id}}</button>
+                        <button #m name="medium" id='4' (click)="setLevel(m.name)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':level!=m.name, 'btn-success':level==m.name}">{{m.name}}</button>
                     </div>
                     <div class="col-2">
-                        <button #h id='hard' (click)="setLevel(h.id)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':level!=h.id, 'btn-success':level==h.id}">{{h.id}}</button>
+                        <button #h name="hard" id='5' (click)="setLevel(h.name)" [ngClass]="{btn:true,'width-button':true,'btn-outline-success':level!=h.name, 'btn-success':level==h.name}">{{h.name}}</button>
                     </div>
                 </div>
                 <br>
             </div>   
-            <p><button id=3 class="button btn btn-light " (click)='move()' [disabled]="!typeGame || (typeGame=='puzzle'&& (!difficulty || difficulty=='select a difficulty level'))" >game</button></p>
+            <p><button id='6' class="button btn btn-light" (click)='move()' [disabled]="disabledB">start game</button></p>
         </div>
     </div>
 </div>

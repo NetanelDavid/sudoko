@@ -81,11 +81,11 @@ export class DataService {
     this.allData[row][col][0]=value;
 
     for (let i = 1; i < this.length+1; i++) {
-      if(i!=value){
-        this.allData[row][col][i]=0;
+      if(i==value){
+        continue;
       }
-    }
-    
+      this.allData[row][col][i]=0;
+    }    
   }
 
   private DeletePerimeters(row:number,col:number,value:number):void{
